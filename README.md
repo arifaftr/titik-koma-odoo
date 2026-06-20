@@ -10,12 +10,11 @@
 3. [Self Assessment](#self-assessment)
 4. [Dashboard / Beranda](#dashboard--beranda)
 5. [Mood Tracker](#mood-tracker)
-6. [Jurnal](#jurnal)
-7. [Self-Help Tools](#self-help-tools)
-8. [Chatbot AI (TiKo AI)](#chatbot-ai-tiko-ai)
-9. [Konseling](#konseling)
-10. [Edit Profil](#edit-profil)
-11. [Pertanyaan Umum (FAQ)](#pertanyaan-umum-faq)
+6. [Self-Help Tools](#self-help-tools)
+7. [Chatbot AI (TiKo AI)](#chatbot-ai-tiko-ai)
+8. [Konseling](#konseling)
+9. [Edit Profil](#edit-profil)
+10. [Pertanyaan Umum (FAQ)](#pertanyaan-umum-faq)
 
 ---
 
@@ -133,13 +132,28 @@ Di halaman yang sama, kamu juga bisa melihat:
 
 ---
 
-## Jurnal
+## Self-Help Tools
 
-Fitur Jurnal memungkinkan kamu menulis dan menyimpan catatan pikiran serta perasaanmu.
+Di dalamnya terdapat dua pilihan: **Tips Self-Help** dan **Journaling**.
 
-### Menulis Jurnal Baru
+1. Dari sidebar, klik **Self-Help Tools**.
+2. Pilih salah satu kartu yang ingin kamu gunakan: **Tips Self-Help** atau **Journaling**.
 
-1. Dari sidebar, masuk ke menu jurnal.
+### Tips Self-Help
+
+Tips Self-Help berisi kumpulan artikel yang tepat untukmu seputar kesehatan mental.
+
+1. Dari halaman Self-Help Tools, klik kartu **Tips Self-Help**.
+2. Jelajahi koleksi artikel dan materi yang tersedia.
+3. Klik salah satu materi untuk membaca atau melihat detailnya.
+
+### Journaling
+
+Journaling memungkinkan kamu mengungkapkan pikiran dan perasaanmu dengan bebas lewat tulisan.
+
+**Menulis Jurnal Baru**
+
+1. Dari halaman Self-Help Tools, klik kartu **Journaling**.
 2. Klik tombol **+ Jurnal Baru**.
 3. Pilih kategori waktu tulisanmu: **Masa Lalu**, **Masa Ini**, atau **Masa Depan**.
 4. Pilih warna tema catatan sesuai suasana hatimu (tersedia beberapa pilihan warna).
@@ -147,7 +161,7 @@ Fitur Jurnal memungkinkan kamu menulis dan menyimpan catatan pikiran serta peras
 6. Tuliskan isi jurnalmu pada kolom yang tersedia.
 7. Simpan jurnal kamu.
 
-### Melihat Jurnal yang Tersimpan
+**Melihat Jurnal yang Tersimpan**
 
 Semua jurnal yang sudah kamu tulis akan muncul di bagian **Jurnal Anda**, ditampilkan sebagai kartu berisi:
 - Kategori waktu (Masa Lalu/Masa Ini/Masa Depan)
@@ -157,23 +171,13 @@ Semua jurnal yang sudah kamu tulis akan muncul di bagian **Jurnal Anda**, ditamp
 
 Klik kartu jurnal atau tombol **Detail →** untuk membaca jurnal secara lengkap.
 
-### Petunjuk Menulis
+**Petunjuk Menulis**
 
 Jika kamu bingung mau menulis apa, gunakan panduan pertanyaan yang tersedia di bagian atas halaman, misalnya:
 - Bagaimana hari ini?
 - Apa yang memberi saya rasa aman belakangan ini?
 - Apa yang sebenarnya saya takuti atau khawatirkan?
 - Bagaimana cara saya mengatasinya?
-
----
-
-## Self-Help Tools
-
-Berisi kumpulan artikel, video, dan tips seputar kesehatan mental yang bisa kamu akses kapan saja.
-
-1. Dari sidebar, klik **Self-Help Tools**.
-2. Jelajahi koleksi materi yang tersedia.
-3. Klik salah satu materi untuk membaca atau melihat detailnya.
 
 ---
 
@@ -229,6 +233,9 @@ Fitur ini menghubungkanmu dengan konselor profesional dan bersertifikat untuk se
 
 **Q: Saya tidak bisa mengakses Mood Tracker/Chatbot/Konseling, kenapa?**
 A: Pastikan kamu sudah menyelesaikan Self Assessment terlebih dahulu. Menu yang masih terkunci akan ditandai dengan ikon gembok 🔒 di sidebar.
+
+**Q: Di mana saya bisa menulis jurnal?**
+A: Masuk ke menu **Self-Help Tools** di sidebar, lalu klik kartu **Journaling**.
 
 **Q: Apakah saya bisa mengerjakan Self Assessment lebih dari sekali?**
 A: Bisa. Semua hasil pengerjaanmu akan tersimpan dan bisa dilihat kembali di halaman Riwayat Assessment.
