@@ -23,8 +23,6 @@
 
 Titik Koma adalah platform yang membantu mahasiswa memahami dan menjaga kesehatan mentalnya. Lewat platform ini, kamu bisa mengukur kondisi mentalmu, mencatat suasana hati, menulis jurnal, ngobrol dengan AI yang suportif, mengakses bahan bacaan self-help, dan terhubung dengan konselor profesional.
 
-Semboyan kami: *"Fokus pada kesejahteraan mentalmu, satu langkah kecil setiap hari."*
-
 ---
 
 ## Memulai
