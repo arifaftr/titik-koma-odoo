@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="custom_homepage" name="Mental Health Modern Dashboard">
+
+        <t t-call="website.layout">
+
+            <link rel="stylesheet" href="/titikkoma/static/src/css/titikkoma.css"/>
+
+            <div class="dashboard">
+
+                <!-- SIDEBAR NAVIGATION -->
+                <aside class="sidebar" id="sidebar">
+
+                    <img src="/titikkoma/static/src/img/titikkomalogo1.png" alt="Titik Koma" class="logo"/>
+
+                    <nav class="menu" style="margin-top: 30px;">
+
+                        <div class="menu-title">Menu Utama</div>
+
+                        <a href="/" class="menu-item active">
+                            <span class="icon">🏠</span>
+                            <span>Beranda</span>
+                        </a>
+
+                        <a href="/assessment/retry/4591d5f4-b6f7-4991-aab7-9fdae2847b7e" class="menu-item">
+                            <span class="icon">📋</span>
+                            <span>Self Assessment</span>
+                        </a>
+
+                        <a href="/mood-tracker" class="menu-item">
+                            <span class="icon">📊</span>
+                            <span>Mood Tracker</span>
+                        </a>
+
+                        <div class="menu-title" style="margin-top: 30px;">Dukungan</div>
+
+                        <a href="/self-help-tools" class="menu-item">
+                            <span class="icon">📚</span>
+                            <span>Self-Help Tools</span>
+                        </a>
+
+                        <a href="/chatbot" class="menu-item">
+                            <span class="icon">🤖</span>
+                            <span>Chatbot AI</span>
+                        </a>
+
+                        <a href="/konseling" class="menu-item">
+                            <span class="icon">💬</span>
+                            <span>Konseling</span>
+                        </a>
+
+                    </nav>
+
+                    <a href="/web/session/logout" class="menu-item logout-btn">
+                        <span class="icon">⏻</span>
+                        <span>Logout</span>
+                    </a>
+
+                </aside>
+
+                <!-- MAIN CONTENT -->
+                <main class="main-content" id="mainContent">
+
+                    <button class="toggle-sidebar" id="sidebarToggle" onclick="toggleSidebar()">☰</button>
+
+                    <!-- HEADER / TOPBAR -->
+                    <div class="topbar">
+
+                        <div class="welcome">
+                            <h1>Halo, Selamat Datang! 👋</h1>
+                            <p>Kami senang melihatmu. Mari kita jaga kesehatan mental bersama.</p>
+                        </div>
+
+                    </div>
+
+                    <!-- HERO SECTION -->
+                    <section class="hero">
+
+                        <div class="hero-content">
+                            <h2>Kesehatan Mental adalah Prioritas</h2>
+                            <p>
+                                Platform Titik Koma hadir untuk mendukung perjalanan kesehatan mentalmu.
+                                Jelajahi fitur-fitur kami yang dirancang untuk membantu kamu memahami dan merawat kesehatan mental dengan cara yang mudah dan menyenangkan.
+                            </p>
+                        </div>
+
+                        <a href="/mood-tracker" class="mood-box" style="text-decoration:none;">
+                            <div class="mood-box-emoji">
+                                <t t-if="last_mood">
+                                    <t t-if="'Luar Biasa' in last_mood">😄</t>
+                                    <t t-elif="'Baik' in last_mood">😊</t>
+                                    <t t-elif="'Buruk' in last_mood">😔</t>
+                                    <t t-elif="'Sangat Buruk' in last_mood">😞</t>
+                                </t>
+                                <t t-else="">🌤️</t>
+                            </div>
+                            <div class="mood-box-info">
+                                <span class="mood-box-label">Mood Hari Ini</span>
+                                <t t-if="last_mood">
+                                    <strong class="mood-box-text" t-esc="last_mood"/>
+                                </t>
+                                <t t-else="">
+                                    <strong class="mood-box-text">Belum diisi</strong>
+                                </t>
+                                <span class="mood-box-date" t-esc="tanggal"/>
+                            </div>
+                            <div class="mood-box-action">
+                                <span class="mood-box-btn">Lihat</span>
+                            </div>
+                        </a>
+
+                    </section>
+
+                    <!-- CONTENT GRID -->
+                    <div class="content-grid">
+
+                        <!-- FEATURES PANEL -->
+                        <section class="quick-panel">
+
+                            <div class="section-heading">
+                                <h3>Akses Cepat</h3>
+                            </div>
+
+                            <div class="cards-grid">
+
+                                <!-- SELF ASSESSMENT -->
+                                <div class="feature-card blue">
+                                    <div>
+                                        <h4>Self Assessment</h4>
+                                        <p>Pahami kondisi emosional dan mental kamu melalui kuesioner ilmiah.</p>
+                                    </div>
+                                    <a href="/assessment/retry/4591d5f4-b6f7-4991-aab7-9fdae2847b7e" class="card-btn">Mulai Tes</a>
+                                </div>
+
+                                <!-- SELF-HELP -->
+                                <div class="feature-card pink">
+                                    <div>
+                                        <h4>Self-Help Tools</h4>
+                                        <p>Akses koleksi artikel, video, dan tips untuk kesehatan mental.</p>
+                                    </div>
+                                    <a href="/self-help-tools" class="card-btn">Jelajahi</a>
+                                </div>
+
+                                <!-- AI CHAT (Taller) -->
+                                <div class="feature-card cyan">
+                                    <div>
+                                        <h4>Chatbot AI 🤖</h4>
+                                        <p>Berbicara dengan AI yang suportif, tersedia 24/7 untuk mendengarkan.</p>
+                                    </div>
+                                    <a href="/chatbot" class="card-btn">Mulai Chat</a>
+                                </div>
+
+                                <!-- CONSULTING -->
+                                <div class="feature-card orange">
+                                    <div>
+                                        <h4>Konseling</h4>
+                                        <p>Hubungi konselor profesional dan bersertifikat untuk sesi konsultasi.</p>
+                                    </div>
+                                    <a href="/konseling" class="card-btn">Hubungi</a>
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                        <!-- PROFILE SIDEBAR -->
+                        <aside class="profile-card">
+
+                            <t t-if="user.partner_id.image_1920">
+                                <img
+                                    t-attf-src="/web/image/res.partner/#{user.partner_id.id}/image_1920"
+                                    class="profile-avatar"/>
+                            </t>
+                            <t t-else="">
+                                <div class="profile-avatar profile-avatar--placeholder">
+                                    <span t-esc="(user.name or '?')[0].upper()"/>
+                                </div>
+                            </t>
+
+                            <h3 t-esc="user.name">Nama Pengguna</h3>
+
+                            <!-- Tambah ini: -->
+                            <div style="margin-top:8px;font-size:13px;color:#7f7f91;line-height:1.8;">
+                                <t t-if="user.partner_id.x_nim">
+                                    <div>🪪 <t t-esc="user.partner_id.x_nim"/></div>
+                                </t>
+                                <t t-if="user.partner_id.x_prodi">
+                                    <div>📚 <t t-esc="user.partner_id.x_prodi"/></div>
+                                </t>
+                                <t t-if="user.partner_id.x_institusi">
+                                    <div>🎓 <t t-esc="user.partner_id.x_institusi"/></div>
+                                </t>
+                            </div>
+
+                            <p>Fokus pada kesejahteraan mentalmu, satu langkah kecil setiap hari.</p>
+
+                            <div class="stats">
+                                <div class="stat-item">
+                                    <h4>5</h4>
+                                    <span>Jurnal</span>
+                                </div>
+                                <div class="stat-item">
+                                    <h4>12</h4>
+                                    <span>Mood Logs</span>
+                                </div>
+                                <div class="stat-item wide">
+                                    <h4><t t-esc="jumlah_assessment"/></h4>
+                                    <span>Assessment</span>
+                                </div>
+                            </div>
+
+                            <a href="/edit-profil" class="profile-btn">Edit Profile</a>
+
+                        </aside>
+
+                    </div>
+
+                </main>
+
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Set today's date
+                    const todayDate = document.getElementById('todayDate');
+                    if (todayDate) {
+                        todayDate.textContent = new Date().toLocaleDateString('id-ID', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                    }
+                });
+
+                function toggleSidebar() {
+                    const sidebar = document.getElementById('sidebar');
+                    const toggle = document.getElementById('sidebarToggle');
+                    
+                    if (sidebar) {
+                        sidebar.classList.toggle('collapsed');
+                        if (toggle) {
+                            toggle.style.left = sidebar.classList.contains('collapsed') ? '55px' : '250px';
+                        }
+                        localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+                    }
+                }
+            </script>
+
+        </t>
+
+    </template>
+
+</odoo>

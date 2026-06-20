@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Template for the Self-Help Tools Dashboard -->
+    <template id="self_help_dashboard_template">
+        <div class="o_self_help_dashboard">
+            <div class="dashboard-header">
+                <h2>Self-Help Tools</h2>
+                <p>Latihan ringan untuk menenangkan pikiran</p>
+            </div>
+            <div class="tools-container">
+                <!-- Journaling Card -->
+                <div class="tool-card card-journaling">
+                    <div class="card-content">
+                        <h3>Journaling</h3>
+                        <p>Ungkapkan pikiran dan perasaanmu dengan bebas.</p>
+                    </div>
+                    <div class="illustration">
+                        <img src="/student_journaling/static/src/img/journal_book.png"/>
+                    </div>
+                </div>
+
+                <!-- Tips Card -->
+                <div class="tool-card card-tips">
+                    <div class="card-content">
+                        <h3>Tips Self-Help</h3>
+                        <p>Temukan artikel yang tepat untukmu.</p>
+                    </div>
+                    <div class="illustration">
+                        <img src="/student_journaling/static/src/img/tips_phone.png"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Client Action for the Dashboard -->
+    <record id="action_self_help_dashboard" model="ir.actions.client">
+        <field name="name">Self-Help Tools</field>
+        <field name="tag">student_journaling.self_help_dashboard</field>
+    </record>
+
+    <!-- Menu for the Dashboard -->
+    <menuitem id="menu_self_help_dashboard" 
+              name="Self-Help Tools" 
+              parent="menu_student_journal_root" 
+              action="action_self_help_dashboard" 
+              sequence="5"
+              groups="base.group_system"/>
+</odoo>

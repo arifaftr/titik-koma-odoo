@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="default_chatbot_config" model="chatbot.config">
+        <field name="name">Default Gemini Config</field>
+        <field name="model_name">gemini-2.5-flash</field>
+        <field name="temperature">0.7</field>
+    </record>
+
+</odoo>

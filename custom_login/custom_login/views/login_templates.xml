@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Membajak template web.login bawaan Odoo -->
+        <template id="custom_login_titik_koma" inherit_id="web.login" name="Titik Koma Login">
+            
+            <!-- Mengganti pembungkus (wrapper) agar menggunakan kanvas kosong (web.layout), bukan layout website -->
+            <xpath expr="." position="attributes">
+                <attribute name="t-call">web.layout</attribute>
+            </xpath>
+
+            <!-- Mengganti form bawaan Odoo dengan desain UI Titik Koma -->
+            <xpath expr="//form[@class='oe_login_form']" position="replace">
+                
+                <style>
+                    body {
+                        margin: 0;
+                        padding: 0;
+                        background-color: #F8F9FA;
+                        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                    }
+                    .tk-container {
+                        display: flex;
+                        height: 100vh;
+                        width: 100vw;
+                        overflow: hidden;
+                    }
+                    
+                    /* --- BAGIAN KIRI (FORM) --- */
+                    .tk-left {
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        position: relative;
+                        padding: 2rem;
+                    }
+                    .tk-logo {
+                        position: absolute;
+                        top: 2rem;
+                        left: 3rem;
+                        color: #7B61FF;
+                        font-weight: 800;
+                        font-size: 1.2rem;
+                    }
+                    .tk-card {
+                        background: white;
+                        padding: 3rem;
+                        border-radius: 20px;
+                        box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+                        width: 100%;
+                        max-width: 400px;
+                        z-index: 10;
+                    }
+                    .tk-form,
+                    .oe_login_form {
+                        background: transparent !important;
+                        border: 0 !important;
+                        box-shadow: none !important;
+                        padding: 0 !important;
+                        margin: 2rem 0 0 !important;
+                        width: 100% !important;
+                        max-width: none !important;
+                    }
+                        font-size: 1.8rem;
+                        margin-bottom: 0.2rem;
+                        text-align: center;
+                    }
+                    .tk-subtitle {
+                        color: #A4B0BE;
+                        font-size: 0.85rem;
+                        margin-bottom: 2rem;
+                        text-align: center;
+                    }
+                    .tk-label {
+                        font-size: 0.8rem;
+                        color: #636E72;
+                        margin-bottom: 0.4rem;
+                        display: block;
+                    }
+                    .tk-input {
+                        width: 100%;
+                        padding: 0.8rem 1rem;
+                        border: 1px solid #DFE6E9;
+                        border-radius: 10px;
+                        margin-bottom: 1rem;
+                        outline: none;
+                        transition: border-color 0.3s;
+                        box-sizing: border-box;
+                    }
+                    .tk-input:focus {
+                        border-color: #7B61FF;
+                    }
+                    .tk-forgot {
+                        font-size: 0.75rem;
+                        color: #7B61FF;
+                        text-decoration: none;
+                        float: right;
+                        margin-top: -0.5rem;
+                        margin-bottom: 1.5rem;
+                    }
+                    .tk-btn {
+                        width: 100%;
+                        background-color: #7B61FF;
+                        color: white;
+                        border: none;
+                        padding: 0.9rem;
+                        border-radius: 10px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        transition: background-color 0.3s;
+                    }
+                    .tk-btn:hover {
+                        background-color: #6A50E5;
+                    }
+                    .tk-signup-text {
+                        text-align: center;
+                        font-size: 0.8rem;
+                        color: #A4B0BE;
+                        margin-top: 1rem;
+                    }
+                        background: transparent !important;
+                        border: 0 !important;
+                        box-shadow: none !important;
+                        padding: 0 !important;
+                    .tk-signup-text a {
+                        color: #7B61FF;
+                        text-decoration: none;
+                        font-weight: bold;
+                    }
+
+                    /* --- BAGIAN KANAN (ILUSTRASI) --- */
+                    .tk-right {
+                        flex: 1.2;
+                        background: linear-gradient(135deg, #B588F7 0%, #7B61FF 100%);
+                        border-top-left-radius: 40% 100%;
+                        border-bottom-left-radius: 40% 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        position: relative;
+                        box-shadow: -10px 0 30px rgba(123, 97, 255, 0.2);
+                    }
+                    .tk-btn-signup-top {
+                        position: absolute;
+                        top: 2rem;
+                        right: 3rem;
+                        background: rgba(255, 255, 255, 0.2);
+                        color: white;
+                        border: 1px solid rgba(255, 255, 255, 0.4);
+                        padding: 0.5rem 1.5rem;
+                        border-radius: 20px;
+                        text-decoration: none;
+                        font-weight: bold;
+                        transition: all 0.3s;
+                    }
+                    .tk-btn-signup-top:hover {
+                        background: white;
+                        color: #7B61FF;
+                    }
+                    .tk-illustration {
+                        max-width: 80%;
+                        height: auto;
+                        display: block;
+                    }
+                </style>
+
+                <div class="tk-container">
+                    
+                    <!-- KIRI: FORM LOGON -->
+                    <div class="tk-left">
+                        <div class="tk-logo">Titik koma.</div>
+                        
+                        <div class="tk-card">
+                            <h2 class="tk-title">Welcome back!</h2>
+                            <p class="tk-subtitle">Sign in your account</p>
+                            
+                            <form class="oe_login_form" role="form" t-attf-action="/web/login" method="post" onsubmit="this.action = '/web/login' + location.hash">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                
+                                <input type="hidden" name="redirect" value="/"/>
+
+                                <label for="login" class="tk-label">Username or email address</label>
+                                <input type="text" name="login" t-att-value="login" id="login" class="tk-input" required="required" autofocus="autofocus" placeholder="Username"/>
+                                
+                                <label for="password" class="tk-label">Password</label>
+                                <input type="password" name="password" id="password" class="tk-input" required="required" placeholder="Password"/>
+                                
+                                <a href="/web/reset_password" class="tk-forgot">Forgot Password?</a>
+                                <div style="clear: both;"></div>
+
+                                <!-- Pesan Error / Success Odoo -->
+                                <p class="alert alert-danger" t-if="error" role="alert" style="font-size: 0.8rem; border-radius: 8px;">
+                                    <t t-esc="error"/>
+                                </p>
+                                <p class="alert alert-success" t-if="message" status="success" role="alert" style="font-size: 0.8rem; border-radius: 8px;">
+                                    <t t-esc="message"/>
+                                </p>
+
+                                <button type="submit" class="tk-btn">Sign in</button>
+                                
+                                <div class="tk-signup-text">
+                                    Don't have an account? <a href="/web/signup">Sign up</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- KANAN: ILUSTRASI -->
+                    <div class="tk-right">
+                        <a href="/web/signup" class="tk-btn-signup-top">Sign up</a>
+                        <!-- Pastikan gambar ilustrasi.png ada di dalam folder img -->
+                        <img src="/custom_login/static/src/img/ilustrasi.png" alt="Illustration" class="tk-illustration"/>
+                    </div>
+
+                </div>
+            </xpath>
+        </template>
+    </data>
+    
+    <!-- ============================================== -->
+        <!-- TEMPLATE UNTUK HALAMAN SIGN UP (DAFTAR)        -->
+        <!-- ============================================== -->
+        <template id="custom_signup_titik_koma" inherit_id="auth_signup.signup" name="Titik Koma Signup">
+            
+            <!-- Kita ganti (replace) seluruh layout agar bersih dan tidak tumpang tindih dengan login -->
+            <xpath expr="." position="replace">
+                <t t-call="web.layout">
+                    
+                    <style>
+                        body {
+                            margin: 0; padding: 0; background-color: #F8F9FA;
+                            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                        }
+                        .su-container { display: flex; height: 100vh; width: 100vw; overflow: hidden; }
+                        
+                        /* --- KIRI: AREA UNGU (ILUSTRASI) --- */
+                        .su-left {
+                            flex: 1.2;
+                            background: linear-gradient(135deg, #B588F7 0%, #7B61FF 100%);
+                            border-top-right-radius: 40% 100%;
+                            border-bottom-right-radius: 40% 100%;
+                            display: flex; justify-content: center; align-items: center;
+                            position: relative;
+                            box-shadow: 10px 0 30px rgba(123, 97, 255, 0.2);
+                        }
+                        .su-logo {
+                            position: absolute; top: 2rem; left: 3rem;
+                            color: white; font-weight: 800; font-size: 1.2rem;
+                        }
+                        .su-illustration { max-width: 80%; height: auto; display: block; }
+                        
+                        /* --- KANAN: AREA PUTIH (FORM) --- */
+                        .su-right {
+                            flex: 1; display: flex; flex-direction: column;
+                            justify-content: center; align-items: center; position: relative; padding: 2rem;
+                        }
+                        .su-btn-signin-top {
+                            position: absolute; top: 2rem; right: 3rem;
+                            background: #7B61FF; color: white; padding: 0.5rem 1.5rem;
+                            border-radius: 20px; text-decoration: none; font-weight: bold;
+                            transition: all 0.3s;
+                        }
+                        .su-btn-signin-top:hover { background: #6A50E5; color: white; }
+                        
+                        .su-card {
+                            background: white; padding: 3rem; border-radius: 20px;
+                            box-shadow: 0 10px 40px rgba(0,0,0,0.05); width: 100%; max-width: 400px;
+                        }
+                        .su-title { color: #2D3436; font-weight: bold; font-size: 1.8rem; margin-bottom: 2rem; text-align: center; }
+                        .su-label { font-size: 0.8rem; color: #636E72; margin-bottom: 0.4rem; display: block; }
+                        .su-input {
+                            width: 100%; padding: 0.8rem 1rem; border: 1px solid #DFE6E9;
+                            border-radius: 10px; margin-bottom: 1rem; outline: none; box-sizing: border-box;
+                        }
+                        .su-input:focus { border-color: #7B61FF; }
+                        .su-btn {
+                            width: 100%; background-color: #7B61FF; color: white; border: none;
+                            padding: 0.9rem; border-radius: 10px; font-weight: bold; cursor: pointer;
+                            margin-top: 1rem; transition: background-color 0.3s;
+                        }
+                        .su-btn:hover { background-color: #6A50E5; }
+                        .su-signin-text { text-align: center; font-size: 0.8rem; color: #A4B0BE; margin-top: 1.5rem; }
+                        .su-signin-text a { color: #7B61FF; text-decoration: none; font-weight: bold; }
+                    </style>
+
+                    <div class="su-container">
+                        
+                        <!-- KIRI: ILUSTRASI -->
+                        <div class="su-left">
+                            <div class="su-logo">Titik koma.</div>
+                            <!-- Sama seperti login, kita pakai gambar yang sama -->
+                            <img src="/custom_login/static/src/img/ilustrasi.png" alt="Illustration" class="su-illustration"/>
+                        </div>
+                        
+                        <!-- KANAN: FORM SIGN UP -->
+                        <div class="su-right">
+                            <a href="/web/login" class="su-btn-signin-top">Sign in</a>
+                            
+                            <div class="su-card">
+                                <h2 class="su-title">Sign up</h2>
+                                
+                                <form class="oe_signup_form" role="form" method="post" t-if="not message" t-attf-action="/web/signup">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="token" t-att-value="token"/>
+                                    <input type="hidden" name="redirect" t-att-value="redirect"/>
+
+                                    <label for="login" class="su-label">Email</label>
+                                    <input type="email" name="login" t-att-value="login" id="login" class="su-input" required="required" placeholder="Email"/>
+
+                                    <label for="name" class="su-label">Username</label>
+                                    <input type="text" name="name" t-att-value="name" id="name" class="su-input" required="required" placeholder="Username"/>
+
+                                    <label for="password" class="su-label">Password</label>
+                                    <input type="password" name="password" id="password" class="su-input" required="required" placeholder="Password"/>
+
+                                    <label for="confirm_password" class="su-label">Confirm password</label>
+                                    <input type="password" name="confirm_password" id="confirm_password" class="su-input" required="required" placeholder="Confirm password"/>
+
+                                    <p class="alert alert-danger" t-if="error" role="alert" style="font-size: 0.8rem;"><t t-esc="error"/></p>
+                                    
+                                    <button type="submit" class="su-btn">Sign up</button>
+                                    
+                                    <div class="su-signin-text">
+                                        Already have an account? <a href="/web/login">Login</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </xpath>
+        </template>
+</odoo>

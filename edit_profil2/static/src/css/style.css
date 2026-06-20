@@ -1,0 +1,260 @@
+:root{
+    --accent:#a58dec;
+    --accent-dark:#6d4cff;
+    --muted:#f3edff;
+    --surface:#ffffff;
+    --surface-alt:#f6f1ff;
+    --text:#2d2d35;
+    --text-muted:#7f7f91;
+}
+
+/* Alert sukses */
+.tk-alert-success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    border: 1px solid #a5d6a7;
+}
+
+/* Foto profil bulat */
+.avatar-img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #a58dec;
+    margin-bottom: 18px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.s_edit_profile_page{
+    background: linear-gradient(180deg, #f8f3ff 0%, #efe6ff 100%);
+    min-height: 100vh;
+    padding: 40px 0 80px;
+}
+
+.container{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-card{
+    width: 100%;
+    max-width: 860px;
+    background: var(--surface);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(96, 74, 255, 0.12);
+    border: 1px solid rgba(143, 107, 255, 0.12);
+}
+
+.profile-card-top{
+    background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+    height: 120px;
+    position: relative;
+}
+
+.back-link{
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.profile-body{
+    padding: 0 24px 32px;
+}
+
+.avatar-wrap{
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.avatar{
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 34px;
+    margin-bottom: 18px;
+}
+
+.profile-name{
+    margin: 0;
+    font-size: 26px;
+    color: var(--text);
+    letter-spacing: -0.3px;
+}
+
+.profile-sub{
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.progress-line{
+    height: 8px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+    border-radius: 999px;
+    margin: 24px 0 32px;
+}
+
+.profile-form{
+    max-width: 820px;
+    margin: 0 auto;
+}
+
+.field{
+    margin-bottom: 22px;
+}
+
+.field label{
+    display: block;
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-bottom: 10px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.input-pill{
+    position: relative;
+    background: #fbf8ff;
+    border: 1px solid rgba(143, 107, 255, 0.18);
+    border-radius: 999px;
+    padding: 16px 20px;
+}
+
+.input-pill input{
+    border: 0;
+    background: transparent;
+    outline: 0;
+    width: 100%;
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.input-pill .underline{
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 10px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, transparent);
+    transition: all .25s ease;
+    opacity: 0;
+}
+
+.input-pill input:focus + .underline{
+    background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+    opacity: 1;
+}
+
+.gender-field .gender-options{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.radio{
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text);
+    background: #f8f4ff;
+    padding: 12px 20px;
+    border-radius: 999px;
+    border: 1px solid rgba(143, 107, 255, 0.14);
+}
+
+.radio input[type="radio"]{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    appearance: none;
+    border: 2px solid rgba(152, 121, 243, 0.5);
+    background: #fff;
+    cursor: pointer;
+}
+
+.radio input[type="radio"]:checked{
+    border-color: transparent;
+    background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+}
+
+.radio span{
+    font-size: 14px;
+    color: var(--text);
+}
+
+.actions{
+    margin-top: 30px;
+    text-align: center;
+}
+
+.btn-save{
+    background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+    color: #fff;
+    border: 0;
+    padding: 16px 34px;
+    border-radius: 999px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 18px 30px rgba(143, 107, 255, 0.24);
+    cursor: pointer;
+    font-size: 15px;
+    letter-spacing: 0.4px;
+    transition: transform .25s ease;
+}
+
+.btn-save:hover{
+    transform: translateY(-1px);
+}
+
+@media (max-width: 820px){
+    .profile-card{
+        padding: 30px 24px;
+    }
+}
+
+@media (max-width: 600px){
+    .s_edit_profile_page{
+        padding: 24px 0 50px;
+    }
+    .profile-body{
+        padding: 0;
+    }
+    .input-pill{
+        padding: 14px 16px;
+    }
+    .btn-save{
+        max-width: 100%;
+    }
+}
+

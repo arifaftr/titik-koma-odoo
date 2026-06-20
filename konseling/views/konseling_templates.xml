@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="konseling_page" name="Halaman Konseling">
+        <t t-call="website.layout">
+            <div class="dashboard">
+
+                 <!-- SIDEBAR NAVIGATION -->
+                <aside class="sidebar" id="sidebar">
+
+                    <img src="/titikkoma/static/src/img/titikkomalogo1.png" alt="Titik Koma" class="logo"/>
+
+                    <nav class="menu" style="margin-top: 30px;">
+
+                        <div class="menu-title">Menu Utama</div>
+
+                        <a href="/" class="menu-item">
+                            <span class="icon">🏠</span>
+                            <span>Beranda</span>
+                        </a>
+
+                        <a href="/assessment/retry/4591d5f4-b6f7-4991-aab7-9fdae2847b7e" class="menu-item">
+                            <span class="icon">📋</span>
+                            <span>Self Assessment</span>
+                        </a>
+
+                        <a href="/mood-tracker" class="menu-item">
+                            <span class="icon">📊</span>
+                            <span>Mood Tracker</span>
+                        </a>
+
+                        <div class="menu-title" style="margin-top: 30px;">Dukungan</div>
+
+                        <a href="/self-help-tools" class="menu-item">
+                            <span class="icon">📚</span>
+                            <span>Self-Help Tools</span>
+                        </a>
+
+                        <a href="/chatbot" class="menu-item">
+                            <span class="icon">🤖</span>
+                            <span>Chatbot AI</span>
+                        </a>
+
+                        <a href="/konseling" class="menu-item active">
+                            <span class="icon">💬</span>
+                            <span>Konseling</span>
+                        </a>
+
+                    </nav>
+
+                    <a href="/web/session/logout" class="menu-item logout-btn">
+                        <span class="icon">⏻</span>
+                        <span>Logout</span>
+                    </a>
+
+                </aside>
+
+                <!-- Main Content -->
+                <div class="main-content" id="mainContent">
+                    <div class="ksl-header">
+                        <h1>Konseling</h1>
+                        <p>Pilih konselor yang sesuai dengan kebutuhanmu dan hubungi langsung via WhatsApp.</p>
+                    </div>
+
+                    <t t-set="ksl_tag_palette" t-value="[
+                        {'bg': '#F2EEFF', 'fg': '#6C3DE0', 'border': '#D9CCFF'},
+                        {'bg': '#EEF4FF', 'fg': '#2563EB', 'border': '#CDE0FF'},
+                        {'bg': '#ECFDF3', 'fg': '#16A34A', 'border': '#C7F3D7'},
+                        {'bg': '#FFF1F4', 'fg': '#FB7185', 'border': '#FFD0D9'},
+                        {'bg': '#E6FFFB', 'fg': '#14B8A6', 'border': '#BDEDE7'}
+                    ]"/>
+
+                    <t t-set="ksl_specialties" t-value="[]"/>
+                    <t t-foreach="konselors" t-as="k">
+                        <t t-set="ksl_spec_raw" t-value="(k.spesialisasi or '').strip()"/>
+                        <t t-if="ksl_spec_raw and ksl_spec_raw not in ksl_specialties">
+                            <t t-set="ksl_specialties" t-value="ksl_specialties + [ksl_spec_raw]"/>
+                        </t>
+                    </t>
+
+                    <div class="ksl-toolbar">
+                        <div class="ksl-search-wrap">
+                            <i class="fa fa-search"/>
+                            <input type="search" class="ksl-search-input" placeholder="Cari nama konselor..." aria-label="Cari nama konselor" data-ksl-search="true"/>
+                        </div>
+
+                        <div class="ksl-chip-row" aria-label="Filter spesialisasi">
+                            <button type="button" class="ksl-chip is-active" data-ksl-chip="true" data-specialty="all" aria-pressed="true">Semua</button>
+                            <t t-foreach="ksl_specialties" t-as="spec">
+                                <button type="button" class="ksl-chip" data-ksl-chip="true" t-att-data-specialty="spec" aria-pressed="false">
+                                    <t t-esc="spec"/>
+                                </button>
+                            </t>
+                        </div>
+                    </div>
+
+                    <div class="ksl-grid" data-ksl-grid="true">
+                        <t t-foreach="konselors" t-as="k">
+                            <t t-set="ksl_spec_raw" t-value="(k.spesialisasi or '').strip()"/>
+                            <t t-set="ksl_spec_key" t-value="ksl_spec_raw.lower()"/>
+                            <t t-set="ksl_tag_theme" t-value="ksl_tag_palette[(k.id or 0) % len(ksl_tag_palette)]"/>
+                            <div class="ksl-card" data-ksl-card="true" t-att-data-name="k.name or ''" t-att-data-specialty="ksl_spec_raw">
+                                <div class="ksl-card-media">
+                                    <t t-if="k.foto">
+                                        <img t-attf-src="/web/image/konseling.konselor/#{k.id}/foto" t-att-alt="k.name"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="ksl-avatar-default">
+                                            <i class="fa fa-user"/>
+                                        </div>
+                                    </t>
+                                </div>
+
+                                <div class="ksl-card-left">
+                                    <div class="ksl-card-copy">
+                                        <h3 class="ksl-name" t-esc="k.name"/>
+                                        <p class="ksl-exp" t-attf-style="--ksl-tag-bg: #{ksl_tag_theme['bg']}; --ksl-tag-fg: #{ksl_tag_theme['fg']}; --ksl-tag-border: #{ksl_tag_theme['border']};" t-esc="k.spesialisasi or 'Konselor'"/>
+                                        <p class="ksl-desc" t-esc="k.deskripsi"/>
+                                    </div>
+                                    <a t-attf-href="https://wa.me/#{k.nomor_wa}" target="_blank" class="ksl-wa-btn">
+                                        <i class="fa fa-whatsapp"/>
+                                        Chat via WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        </t>
+
+                        <t t-if="not konselors">
+                            <div class="ksl-empty">
+                                <i class="fa fa-user-md"/>
+                                <p>Belum ada konselor tersedia saat ini.</p>
+                            </div>
+                        </t>
+
+                        <div class="ksl-empty ksl-empty--filtered" hidden="hidden" data-ksl-empty-state="true">
+                            <i class="fa fa-search"/>
+                            <p>Tidak ada konselor yang cocok dengan pencarian atau filter saat ini.</p>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript">
+                        (function () {
+                            const root = document.getElementById('mainContent');
+                            if (!root) {
+                                return;
+                            }
+
+                            const searchInput = root.querySelector('[data-ksl-search]');
+                            const chipButtons = Array.from(root.querySelectorAll('[data-ksl-chip]'));
+                            const cards = Array.from(root.querySelectorAll('[data-ksl-card]'));
+                            const emptyState = root.querySelector('[data-ksl-empty-state]');
+                            let activeSpecialty = 'all';
+
+                            const normalize = (value) => (value || '').toString().trim().toLowerCase();
+
+                            const setChipState = () => {
+                                chipButtons.forEach((button) => {
+                                    const specialty = normalize(button.dataset.specialty || 'all');
+                                    const isActive = activeSpecialty !== 'all' &amp;&amp; specialty === activeSpecialty;
+                                    const isAllActive = specialty === 'all' &amp;&amp; activeSpecialty === 'all';
+                                    button.classList.toggle('is-active', isActive || isAllActive);
+                                    button.setAttribute('aria-pressed', String(isActive || isAllActive));
+                                });
+                            };
+
+                            const hideCard = (card) => {
+                                if (card.dataset.kslVisible === 'false') {
+                                    return;
+                                }
+
+                                card.dataset.kslVisible = 'false';
+                                const animation = card.animate([
+                                    { opacity: 1, transform: 'translateY(0) scale(1)' },
+                                    { opacity: 0, transform: 'translateY(10px) scale(0.985)' }
+                                ], {
+                                    duration: 180,
+                                    easing: 'ease-out',
+                                    fill: 'forwards'
+                                });
+
+                                animation.onfinish = () => {
+                                    if (card.dataset.kslVisible === 'false') {
+                                        card.style.display = 'none';
+                                    }
+                                };
+                            };
+
+                            const showCard = (card, delay = 0) => {
+                                card.dataset.kslVisible = 'true';
+                                card.style.display = 'flex';
+                                card.animate([
+                                    { opacity: 0, transform: 'translateY(12px) scale(0.985)' },
+                                    { opacity: 1, transform: 'translateY(0) scale(1)' }
+                                ], {
+                                    duration: 220,
+                                    delay,
+                                    easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                                    fill: 'forwards'
+                                });
+                            };
+
+                            const applyFilters = () => {
+                                const query = normalize(searchInput ? searchInput.value : '');
+                                let visibleCount = 0;
+
+                                cards.forEach((card) => {
+                                    const name = normalize(card.dataset.name);
+                                    const specialty = normalize(card.dataset.specialty);
+                                    const matchesSearch = !query || name.includes(query);
+                                    const matchesSpecialty = activeSpecialty === 'all' || specialty === activeSpecialty;
+                                    const shouldShow = matchesSearch &amp;&amp; matchesSpecialty;
+
+                                    if (shouldShow) {
+                                        visibleCount += 1;
+                                        showCard(card);
+                                    } else {
+                                        hideCard(card);
+                                    }
+                                });
+
+                                if (emptyState) {
+                                    emptyState.hidden = visibleCount !== 0;
+                                }
+                            };
+
+                            searchInput?.addEventListener('input', applyFilters);
+
+                            chipButtons.forEach((button) => {
+                                button.addEventListener('click', () => {
+                                    const specialty = normalize(button.dataset.specialty || 'all');
+                                    activeSpecialty = activeSpecialty === specialty ? 'all' : specialty;
+                                    setChipState();
+                                    applyFilters();
+                                });
+                            });
+
+                            setChipState();
+                            cards.forEach((card, index) => {
+                                window.setTimeout(() => {
+                                    showCard(card, 0);
+                                }, index * 70);
+                            });
+                        })();
+                    </script>
+                </div>
+
+            </div>
+        </t>
+    </template>
+</odoo>

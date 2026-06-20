@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="selfhelp_tools_page" name="Self-Help Tools">
+        <t t-call="website.layout">
+
+            <link rel="stylesheet" href="/titikkoma/static/src/css/titikkoma.css"/>
+
+            <div class="dashboard">
+
+                <!-- SIDEBAR NAVIGATION -->
+                <aside class="sidebar" id="sidebar">
+
+                    <img src="/titikkoma/static/src/img/titikkomalogo1.png" alt="Titik Koma" class="logo"/>
+
+                    <nav class="menu" style="margin-top: 30px;">
+
+                        <div class="menu-title">Menu Utama</div>
+
+                        <a href="/" class="menu-item">
+                            <span class="icon">🏠</span>
+                            <span>Beranda</span>
+                        </a>
+
+                        <a href="/assessment/retry/4591d5f4-b6f7-4991-aab7-9fdae2847b7e" class="menu-item">
+                            <span class="icon">📋</span>
+                            <span>Self Assessment</span>
+                        </a>
+
+                        <a href="/mood-tracker" class="menu-item">
+                            <span class="icon">📊</span>
+                            <span>Mood Tracker</span>
+                        </a>
+
+                        <div class="menu-title" style="margin-top: 30px;">Dukungan</div>
+
+                        <a href="/self-help-tools" class="menu-item active">
+                            <span class="icon">📚</span>
+                            <span>Self-Help Tools</span>
+                        </a>
+
+                        <a href="/chatbot" class="menu-item">
+                            <span class="icon">🤖</span>
+                            <span>Chatbot AI</span>
+                        </a>
+
+                        <a href="/konseling" class="menu-item">
+                            <span class="icon">💬</span>
+                            <span>Konseling</span>
+                        </a>
+
+                    </nav>
+
+                    <a href="/web/session/logout" class="menu-item logout-btn">
+                        <span class="icon">⏻</span>
+                        <span>Logout</span>
+                    </a>
+
+                </aside>
+
+                <!-- MAIN CONTENT -->
+                <main class="main-content" id="mainContent">
+
+                    <!-- PAGE HEADER -->
+                    <div class="topbar">
+                        <div class="welcome">
+                            <h1>Self-Help Tools</h1>
+                            <p>Latihan ringan untuk menenangkan pikiran.</p>
+                        </div>
+                        <div class="profile-mini">
+                            <img src="/titikkoma/static/src/img/patrick.jpg"/>
+                            <div>
+                                <h4><t t-esc="user.name"/></h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD GRID -->
+                    <div class="sht-grid">
+
+                        <!-- Card: Tips Self-Help -->
+                        <a href="/blog/self-help-3" class="sht-card sht-card--blue">
+                            <div class="sht-card__body">
+                                <h2 class="sht-card__title">Tips Self-Help</h2>
+                                <p class="sht-card__desc">Temukan artikel yang tepat untukmu.</p>
+                            </div>
+                            <div class="sht-card__illustration">
+                                <i class="fa fa-mobile fa-4x"/>
+                            </div>
+                        </a>
+
+                        <!-- Card: Journaling -->
+                        <a href="/journaling/list" class="sht-card sht-card--purple">
+                            <div class="sht-card__body">
+                                <h2 class="sht-card__title">Journaling</h2>
+                                <p class="sht-card__desc">Ungkapkan pikiran dan perasaanmu dengan bebas.</p>
+                            </div>
+                            <div class="sht-card__illustration">
+                                <i class="fa fa-book fa-4x"/>
+                            </div>
+                        </a>
+
+                    </div>
+
+                </main>
+
+            </div>
+
+            <script>
+                function toggleSidebar() {
+                    const sidebar = document.getElementById("sidebar");
+                    const mainContent = document.getElementById("mainContent");
+                    sidebar.classList.toggle("collapsed");
+                    mainContent.classList.toggle("expanded");
+                }
+            </script>
+
+        </t>
+    </template>
+</odoo>

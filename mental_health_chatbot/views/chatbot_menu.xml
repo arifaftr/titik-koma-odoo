@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Action open frontend chatbot page -->
+    <record id="action_chatbot_page" model="ir.actions.act_url">
+        <field name="name">Open Chatbot</field>
+        <field name="url">/chatbot</field>
+        <field name="target">self</field>
+    </record>
+
+    <!-- Action Config -->
+    <record id="action_chatbot_config" model="ir.actions.act_window">
+        <field name="name">Configuration</field>
+        <field name="res_model">chatbot.config</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Action History -->
+    <record id="action_chatbot_history" model="ir.actions.act_window">
+        <field name="name">Chat History</field>
+        <field name="res_model">chatbot.history</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <!-- Menu Utama -->
+    <menuitem id="menu_mental_chatbot_root"
+              name="Mental Health Chatbot"
+              action="action_chatbot_config"/>
+
+    <!-- Submenu -->
+    <menuitem id="menu_chatbot_page"
+              name="Open Chatbot"
+              parent="menu_mental_chatbot_root"
+              action="action_chatbot_page"/>
+
+    <menuitem id="menu_chatbot_config"
+              name="Configuration"
+              parent="menu_mental_chatbot_root"
+              action="action_chatbot_config"/>
+
+    <menuitem id="menu_chatbot_history"
+              name="Chat History"
+              parent="menu_mental_chatbot_root"
+              action="action_chatbot_history"/>
+
+</odoo>

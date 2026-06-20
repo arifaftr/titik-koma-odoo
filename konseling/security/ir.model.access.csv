@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_konselor_public,konselor public,model_konseling_konselor,,1,0,0,0
+access_konselor_admin,konselor admin,model_konseling_konselor,base.group_user,1,1,1,1
+access_konsultasi_user,konsultasi user,model_konseling_konsultasi,,1,1,1,0
+access_konsultasi_admin,konsultasi admin,model_konseling_konsultasi,base.group_user,1,1,1,1

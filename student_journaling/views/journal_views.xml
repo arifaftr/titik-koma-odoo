@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_student_journal_kanban" model="ir.ui.view">
+        <field name="name">student.journal.kanban</field>
+        <field name="model">student.journal</field>
+        <field name="arch" type="xml">
+            <kanban class="o_journal_kanban" default_order="date desc" sample="1">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="category"/>
+                <field name="color_theme"/>
+                <field name="content"/>
+                <templates>
+                    <t t-name="kanban-menu">
+                        <a type="edit" class="dropdown-item">Edit</a>
+                        <a type="delete" class="dropdown-item">Delete</a>
+                    </t>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click o_kanban_record journal-theme-#{record.color_theme.raw_value}">
+                            <div class="card-header">
+                                <span class="card-tag">
+                                    <t t-if="record.category.raw_value == 'past'">Masa Lalu</t>
+                                    <t t-elif="record.category.raw_value == 'present'">Masa Ini</t>
+                                    <t t-elif="record.category.raw_value == 'future'">Masa Depan</t>
+                                </span>
+                                <span class="card-date"><field name="date"/></span>
+                            </div>
+                            
+                            <strong class="card-title">Untuk : Diriku di <field name="category"/></strong>
+                            
+                            <div class="card-summary">
+                                <field name="name"/>
+                            </div>
+
+                            <div class="card-footer">
+                                <button class="btn-detail">
+                                    Detail <i class="fa fa-arrow-right"/>
+                                </button>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_student_journal_tree" model="ir.ui.view">
+        <field name="name">student.journal.tree</field>
+        <field name="model">student.journal</field>
+        <field name="arch" type="xml">
+            <tree string="Riwayat Jurnal">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="category" widget="badge" decoration-info="category == 'present'" decoration-warning="category == 'past'" decoration-success="category == 'future'"/>
+                <field name="student_id" optional="hide"/>
+                <field name="mood_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_student_journal_form" model="ir.ui.view">
+        <field name="name">student.journal.form</field>
+        <field name="model">student.journal</field>
+        <field name="arch" type="xml">
+            <form string="Tulis Jurnal" class="o_journal_form">
+                <sheet>
+                    <field name="color_theme" invisible="1"/>
+                    <div class="form-header-container d-flex justify-content-between align-items-center">
+                        <field name="category" widget="radio" options="{'horizontal': true}"/>
+                        <div class="color-selector-container">
+                            <field name="color_theme" widget="radio" options="{'horizontal': true}"/>
+                        </div>
+                    </div>
+
+                        <div class="writing-card">
+                            <div class="card-title">
+                                Untuk : Diriku di <field name="category" readonly="1"/>
+                            </div>
+                            
+                            <field name="content" widget="html" class="zen-editor" placeholder="Ceritakan harimu di sini..."/>
+                        </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_student_journal" model="ir.actions.act_window">
+        <field name="name">Jurnal Saya</field>
+        <field name="res_model">student.journal</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Belum ada jurnal. Mulailah menulis untuk kesehatan mental yang lebih baik!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_student_journal_root" name="Journaling" sequence="20" web_icon="student_journaling,static/description/icon.png" groups="base.group_system"/>
+    <menuitem id="menu_student_journal" name="Daftar Jurnal" parent="menu_student_journal_root" action="action_student_journal" sequence="10" groups="base.group_system"/>
+</odoo>

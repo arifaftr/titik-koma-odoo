@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="journal_zen_layout" name="Journal Zen Layout">
+        &lt;!DOCTYPE html&gt;
+        <html>
+            <head>
+                <title>Titik koma. - Zen Dashboard</title>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <link rel="preconnect" href="https://fonts.googleapis.com"/>
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+                <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+                <style>
+                    body {
+                        margin: 0;
+                        background-color: #F4F2FF;
+                        overflow: hidden;
+                    }
+
+                    .website-journal-wrapper {
+                        min-height: 100vh;
+                        width: 100%;
+                    }
+
+                    .sidebar {
+                        width: 280px;
+                        position: fixed;
+                        height: 100vh;
+                        left: 0;
+                        top: 0;
+                        background: #ffffff;
+                        z-index: 1000;
+                        display: flex;
+                        flex-direction: column;
+                        overflow-y: auto;
+                        overflow-x: hidden;
+                        border-right: 1px solid rgba(203, 213, 225, 0.8);
+                        box-shadow: 10px 0 30px rgba(108, 92, 231, 0.05);
+                    }
+
+                    .journal-main-content {
+                        margin-left: 280px;
+                        width: calc(100% - 280px);
+                        height: 100vh;
+                        overflow-y: auto;
+                        overflow-x: hidden;
+                        box-sizing: border-box;
+                        scrollbar-gutter: stable;
+                    }
+
+                    .writing-container {
+                        width: 100%;
+                        max-width: 900px;
+                        margin: 0 auto;
+                        box-sizing: border-box;
+                    }
+
+                    .writing-card {
+                        width: 100%;
+                        box-sizing: border-box;
+                    }
+                </style>
+                <t t-call-assets="web.assets_frontend"/>
+                <style>
+                    body { 
+                        margin: 0; padding: 0; 
+                        font-family: 'Plus Jakarta Sans', sans-serif !important; 
+                        background-color: #F4F2FF; /* Background lavender super soft dari gambar */
+                        overflow: hidden;
+                    }
+
+                    .website-journal-wrapper { min-height: 100vh; width: 100%; overflow: visible; }
+
+                    /* Sidebar Navigation */
+                    .sidebar {
+                        width: 280px;
+                        background: #ffffff;
+                        color: #2D3436;
+                        padding: 32px 20px;
+                        position: fixed;
+                        height: 100vh;
+                        left: 0;
+                        top: 0;
+                        overflow-y: auto;
+                        overflow-x: hidden;
+                        z-index: 1000;
+                        border-right: 1px solid rgba(203, 213, 225, 0.8);
+                        box-shadow: 10px 0 30px rgba(108, 92, 231, 0.05);
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    .sidebar .logout-btn {
+                        margin-top: auto;
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        padding: 14px 16px;
+                        border-radius: 12px;
+                        color: #ef4444;
+                        background: rgba(239, 68, 68, 0.08);
+                        border: 1px solid rgba(239, 68, 68, 0.15);
+                        text-decoration: none;
+                        font-weight: 600;
+                        transition: all 0.2s ease;
+                    }
+
+                    .sidebar .logout-btn:hover {
+                        background: rgba(239, 68, 68, 0.14);
+                    }
+
+                    .sidebar .logout-btn .icon {
+                        font-size: 18px;
+                        min-width: 20px;
+                        text-align: center;
+                    }
+
+                    .sidebar::-webkit-scrollbar {
+                        width: 6px;
+                    }
+
+                    .sidebar::-webkit-scrollbar-track {
+                        background: transparent;
+                    }
+
+                    .sidebar::-webkit-scrollbar-thumb {
+                        background: #cbd5e1;
+                        border-radius: 3px;
+                    }
+
+                    .sidebar::-webkit-scrollbar-thumb:hover {
+                        background: #94a3b8;
+                    }
+
+                    .logo {
+                        width: 64px;
+                        height: auto;
+                        display: block;
+                        margin: 0 auto 24px;
+                        border-radius: 6px;
+                    }
+
+                    .menu {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+                    }
+
+                    .menu-title {
+                        font-size: 12px;
+                        font-weight: 700;
+                        letter-spacing: 0.04em;
+                        color: #94a3b8;
+                        text-transform: uppercase;
+                        margin: 0 0 8px 0;
+                        padding: 0 6px;
+                    }
+
+                    .menu-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        padding: 14px 16px;
+                        border-radius: 12px;
+                        color: #636E72 !important;
+                        text-decoration: none !important;
+                        font-weight: 600;
+                        transition: all 0.2s ease;
+                    }
+
+                    .menu-item:hover {
+                        color: #7D6BFF !important;
+                        background: rgba(125, 107, 255, 0.05);
+                    }
+
+                    .menu-item.active {
+                        background: #7D6BFF !important;
+                        color: #FFFFFF !important;
+                        box-shadow: 0 8px 20px rgba(125, 107, 255, 0.3);
+                    }
+
+                    .menu-item.active .icon {
+                        filter: brightness(0) invert(1);
+                    }
+
+                    .menu-item .icon {
+                        width: 22px;
+                        min-width: 22px;
+                        text-align: center;
+                        font-size: 18px;
+                    }
+
+                    /* Area Konten Utama */
+                    .journal-main-content {
+                        margin-left: 280px;
+                        height: 100vh;
+                        min-height: 100vh;
+                        padding: 60px 80px;
+                        overflow-y: auto;
+                        overflow-x: hidden;
+                        box-sizing: border-box;
+                    }
+
+                    .dashboard-title { font-size: 20px; font-weight: 800; color: #2D3436; margin-bottom: 5px; }
+                    .dashboard-subtitle { color: #636E72; margin-bottom: 40px; font-size: 13px; font-weight: 500; }
+
+                    .tools-grid { display: flex; gap: 30px; flex-wrap: wrap; }
+
+                    /* Kartu - Dimensi persis seperti referensi */
+                    .tool-card { 
+                        width: 420px; height: 200px; 
+                        border-radius: 20px; padding: 30px; 
+                        position: relative; overflow: hidden; 
+                        color: white; cursor: pointer; 
+                        box-shadow: 0 15px 30px rgba(0,0,0,0.05); 
+                        transition: transform 0.3s ease; 
+                    }
+                    .tool-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(108, 92, 231, 0.15); }
+
+                    /* Pola Gelombang Halus (Wavy Background) */
+                    .tool-card::before {
+                        content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+                        background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 50 Q 25 25 50 50 T 100 50 T 150 50' fill='none' stroke='white' stroke-width='10' opacity='0.1'/%3E%3Cpath d='M0 70 Q 25 45 50 70 T 100 70 T 150 70' fill='none' stroke='white' stroke-width='10' opacity='0.1'/%3E%3Cpath d='M0 30 Q 25 5 50 30 T 100 30 T 150 30' fill='none' stroke='white' stroke-width='10' opacity='0.1'/%3E%3C/svg%3E");
+                        background-size: 80px 80px; pointer-events: none;
+                    }
+
+                    .journal-card { background: linear-gradient(135deg, #A890FE 0%, #7D6BFF 100%); }
+                    .tips-card { background: linear-gradient(135deg, #81ECEC 0%, #74B9FF 100%); }
+
+                    .tool-card h3 { font-size: 24px; font-weight: 800; margin-bottom: 8px; position: relative; z-index: 2; }
+                    .tool-card p { font-size: 13px; max-width: 180px; line-height: 1.4; opacity: 0.9; position: relative; z-index: 2; }
+
+                    /* Letak ilustrasi di pojok kanan */
+                    .card-illustration { 
+                        position: absolute; right: -10px; bottom: -20px; 
+                        width: 200px; height: 200px; 
+                        z-index: 1;
+                    }
+
+                    /* --- LIST VIEW STYLES --- */
+                    .list-top-header {
+                        height: 180px; width: 100%;
+                        background: linear-gradient(135deg, #B298FE 0%, #7D6BFF 100%);
+                        border-radius: 0 0 0 0;
+                        position: relative;
+                        margin-bottom: -60px; /* Overlap content */
+                        display: flex; align-items: flex-start; padding: 40px;
+                    }
+                    .list-top-header::before {
+                        content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+                        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='white' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2v-4h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2v-4h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+                        opacity: 0.3;
+                    }
+                    .back-btn {
+                        width: 40px; height: 40px; background: rgba(255,255,255,0.2);
+                        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                        color: white !important; text-decoration: none !important; font-size: 18px;
+                        position: relative; z-index: 10;
+                    }
+
+                    .action-row { display: flex; gap: 30px; margin-bottom: 40px; justify-content: center; }
+                    .btn-zen {
+                        padding: 15px 40px; border-radius: 30px; font-weight: 700; font-size: 18px;
+                        display: flex; align-items: center; gap: 10px; border: none; cursor: pointer;
+                        transition: all 0.3s ease; text-decoration: none !important;
+                    }
+                    .btn-primary-zen { background: #B298FE; color: white; box-shadow: 0 10px 20px rgba(178, 152, 254, 0.3); }
+                    .btn-secondary-zen { background: #C3B6FF; color: white; box-shadow: 0 10px 20px rgba(195, 182, 255, 0.3); }
+                    .btn-zen:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+
+                    .instruction-card {
+                        background: #D1FBF0; border-radius: 30px; padding: 30px 40px;
+                        display: flex; gap: 25px; margin-bottom: 50px; align-items: flex-start;
+                        box-shadow: 0 10px 30px rgba(209, 251, 240, 0.5);
+                    }
+                    .inst-icon {
+                        width: 60px; height: 60px; background: white; border-radius: 50%;
+                        display: flex; align-items: center; justify-content: center; color: #FF7675; font-size: 24px;
+                        flex-shrink: 0;
+                    }
+                    .inst-content h4 { font-weight: 800; color: #2D3436; margin-bottom: 10px; font-size: 22px; }
+                    .inst-content ul { padding-left: 20px; margin: 0; color: #636E72; font-size: 14px; line-height: 1.8; }
+
+                    .section-title { font-size: 24px; font-weight: 800; color: #2D3436; margin-bottom: 30px; }
+
+                    .journal-grid-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 30px; }
+                    .journal-item-card {
+                        border-radius: 25px; padding: 25px; position: relative; overflow: hidden;
+                        transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+                    }
+                    .journal-item-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
+                    
+                    /* Card Variants */
+                    .theme-teal { background: #96DED1 !important; }
+                    .theme-pink { background: #E9B7BC !important; }
+                    .theme-green { background: #B6E2D3 !important; }
+                    .theme-yellow { background: #E3E3B6 !important; }
+                    .theme-purple { background: #D1C4E9 !important; }
+                    .theme-orange { background: #FFCCBC !important; }
+                    .theme-blue { background: #B3E5FC !important; }
+                    .theme-red { background: #FFCDD2 !important; }
+
+                    .card-top { display: flex; justify-content: space-between; margin-bottom: 20px; }
+                    .tag-masa {
+                        background: rgba(255,255,255,0.4); padding: 4px 12px; border-radius: 10px;
+                        font-size: 10px; font-weight: 700; color: #2D3436;
+                    }
+                    .card-date-text { font-size: 10px; font-weight: 600; color: rgba(0,0,0,0.4); }
+                    .journal-item-card h4 { font-weight: 800; font-size: 18px; margin-bottom: 12px; color: #2D3436; }
+                    .journal-item-card p { font-size: 14px; line-height: 1.5; color: #636E72; margin-bottom: 25px; height: 42px; overflow: hidden; }
+                    
+                    .btn-detail-zen {
+                        background: rgba(125, 107, 255, 0.4); color: white; border: none;
+                        padding: 8px 18px; border-radius: 12px; font-size: 12px; font-weight: 700;
+                        display: flex; align-items: center; gap: 8px; cursor: pointer; width: fit-content;
+                    }
+
+                    /* --- ZEN PREMIUM 2.0 FORM --- */
+                    .writing-container { width: 100%; max-width: 900px; margin: 0 auto; padding: 40px 0; }
+                    .writing-card {
+                        background: white; border-radius: 40px; padding: 50px;
+                        box-shadow: 0 30px 70px rgba(108, 92, 231, 0.1);
+                        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                    }
+                    .zen-control-bar {
+                        background: rgba(255, 255, 255, 0.3);
+                        backdrop-filter: blur(15px);
+                        border-radius: 24px;
+                        padding: 12px 24px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 45px;
+                        border: 1px solid rgba(255, 255, 255, 0.4);
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+                    }
+
+                    .cat-pills { display: flex; gap: 10px; }
+                    .cat-pill-label {
+                        padding: 8px 18px; border-radius: 14px; font-size: 14px; font-weight: 700;
+                        color: rgba(45, 52, 54, 0.5); cursor: pointer; transition: all 0.3s ease;
+                    }
+                    .selector-item:checked + .cat-pill-label {
+                        background: white; color: #7D6BFF; box-shadow: 0 6px 15px rgba(0,0,0,0.06);
+                    }
+
+                    .color-palette { display: flex; gap: 12px; align-items: center; }
+                    .color-circle {
+                        width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+                        border: 3px solid white; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                        flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                    }
+                    .color-item:checked + .color-circle { transform: scale(1.4) rotate(15deg); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+                    .theme-teal-circle { background: #96DED1; }
+                    .theme-pink-circle { background: #E9B7BC; }
+                    .theme-green-circle { background: #B6E2D3; }
+                    .theme-yellow-circle { background: #E3E3B6; }
+                    .theme-purple-circle { background: #D1C4E9; }
+                    .theme-orange-circle { background: #FFCCBC; }
+                    .theme-blue-circle { background: #B3E5FC; }
+                    .theme-red-circle { background: #FFCDD2; }
+
+                    .action-circle {
+                        width: 55px; height: 55px; border-radius: 50%; display: flex; 
+                        align-items: center; justify-content: center; font-size: 22px; 
+                        cursor: pointer; border: none; transition: all 0.3s ease;
+                        color: white !important;
+                    }
+                    .btn-upload-zen { background: #B298FE; box-shadow: 0 8px 20px rgba(178, 152, 254, 0.3); }
+                    .btn-delete-zen { background: #FF7675; box-shadow: 0 8px 20px rgba(255, 118, 117, 0.3); }
+                    .action-circle:hover { transform: translateY(-5px) scale(1.05); }
+
+                    .card-footer-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 50px; }
+
+                    .btn-zen {
+                        padding: 14px 50px; border-radius: 20px; font-weight: 700; font-size: 16px;
+                        display: flex; align-items: center; gap: 10px; border: none; cursor: pointer;
+                        transition: all 0.3s ease; text-decoration: none !important;
+                    }
+                    .btn-primary-zen { background: #7D6BFF; color: white; box-shadow: 0 10px 25px rgba(125, 107, 255, 0.2); }
+                    .btn-primary-zen:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(125, 107, 255, 0.3); }
+                </style>
+            </head>
+            <body>
+                <t t-out="0"/>
+            </body>
+        </html>
+    </template>
+
+    <!-- Sidebar Reusable (Mirip 100% Gambar) -->
+    <template id="journal_sidebar_content" name="Journal Sidebar Content">
+        <aside class="sidebar" id="sidebar">
+            <img src="/titikkoma/static/src/img/titikkomalogo1.png" alt="Titik Koma" class="logo"/>
+
+            <nav class="menu" style="margin-top: 30px;">
+                <div class="menu-title">Menu Utama</div>
+
+                <a href="/" t-attf-class="menu-item #{'active' if active_menu == 'home' else ''}">
+                    <span class="icon">🏠</span>
+                    <span>Beranda</span>
+                </a>
+
+                <a href="/assessment/retry/4591d5f4-b6f7-4991-aab7-9fdae2847b7e" t-attf-class="menu-item #{'active' if active_menu == 'assessment' else ''}">
+                    <span class="icon">📋</span>
+                    <span>Self Assessment</span>
+                </a>
+
+                <a href="/mood-tracker" t-attf-class="menu-item #{'active' if active_menu == 'mood' else ''}">
+                    <span class="icon">📊</span>
+                    <span>Mood Tracker</span>
+                </a>
+
+                <div class="menu-title" style="margin-top: 30px;">Dukungan</div>
+
+                <a href="/journaling" t-attf-class="menu-item #{'active' if active_menu == 'tools' else ''}">
+                    <span class="icon">📚</span>
+                    <span>Self-Help Tools</span>
+                </a>
+
+                <a href="#" class="menu-item">
+                    <span class="icon">🤖</span>
+                    <span>Chatbot AI</span>
+                </a>
+
+                <a href="/konseling" class="menu-item">
+                    <span class="icon">💬</span>
+                    <span>Konseling</span>
+                </a>
+            </nav>
+
+            <a href="#" class="menu-item logout-btn">
+                <span class="icon">⏻</span>
+                <span>Logout</span>
+            </a>
+        </aside>
+    </template>
+
+    <!-- Halaman Daftar Jurnal -->
+    <template id="website_journal_list" name="Journal List">
+        <t t-call="student_journaling.journal_zen_layout">
+            <div class="website-journal-wrapper">
+                <t t-call="student_journaling.journal_sidebar_content">
+                    <t t-set="active_menu" t-value="'tools'"/>
+                </t>
+                <div class="journal-main-content" style="padding: 0;">
+                    <!-- Top Purple Header -->
+                    <div class="list-top-header">
+                        <a href="/" class="back-btn">
+                            <i class="fa fa-arrow-left"/>
+                        </a>
+                    </div>
+
+                    <div style="padding: 0 80px 80px 80px; position: relative; z-index: 5;">
+                        <!-- Action Row -->
+                        <div class="action-row" style="margin-bottom: 50px;">
+                            <a href="/journaling/new" class="btn-zen btn-primary-zen" style="width: 280px; justify-content: center;">
+                                <i class="fa fa-plus" style="font-size: 24px;"/> Jurnal Baru
+                            </a>
+                            <button class="btn-zen btn-secondary-zen" style="width: 280px; justify-content: center;">
+                                <i class="fa fa-filter" style="font-size: 24px;"/> Filter
+                            </button>
+                        </div>
+
+                        <!-- Instruction Card -->
+                        <div class="instruction-card">
+                            <div class="inst-icon">
+                                <i class="fa fa-bookmark-o"/>
+                            </div>
+                            <div class="inst-content">
+                                <h4>Petunjuk</h4>
+                                <ul>
+                                    <li>Bagaimana hari ini?</li>
+                                    <li>Apa yang memberi saya rasa aman belakangan ini?</li>
+                                    <li>Apa yang sebenarnya saya takuti atau khawatirkan?</li>
+                                    <li>Bagaimana cara saya mengatasinya?</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h3 class="section-title">Jurnal Anda</h3>
+
+                        <div class="journal-grid-list">
+                            <t t-if="not journals">
+                                <div style="grid-column: 1 / -1; background: white; padding: 40px; border-radius: 20px; text-align: center;">
+                                    <p style="color: #636E72;">Belum ada catatan jurnal. Mulailah menulis hari ini!</p>
+                                </div>
+                            </t>
+                            <t t-foreach="journals" t-as="journal">
+                                <div t-attf-class="journal-item-card theme-#{journal.color_theme or 'teal'}">
+                                    <div class="card-top">
+                                        <span class="tag-masa">
+                                            <t t-if="journal.category == 'past'">Masa Lalu</t>
+                                            <t t-elif="journal.category == 'present'">Masa Ini</t>
+                                            <t t-elif="journal.category == 'future'">Masa Depan</t>
+                                        </span>
+                                        <span class="card-date-text" t-field="journal.date" t-options='{"widget": "date", "format": "d MMMM yyyy"}'/>
+                                    </div>
+                                    <h4>Untuk : Diriku di <t t-if="journal.category == 'past'">Masa Lalu</t>
+                                        <t t-elif="journal.category == 'present'">Masa Ini</t>
+                                        <t t-elif="journal.category == 'future'">Masa Depan</t>
+                                    </h4>
+                                    <p t-field="journal.name"/>
+                                    <a t-attf-href="/journaling/detail/#{journal.id}" class="btn-detail-zen">
+                                        Detail <i class="fa fa-arrow-right"/>
+                                    </a>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <!-- Halaman Tulis Jurnal Baru -->
+    <template id="website_journal_form" name="Journal Writing Form">
+        <t t-call="student_journaling.journal_zen_layout">
+            <div class="website-journal-wrapper">
+                <t t-call="student_journaling.journal_sidebar_content">
+                    <t t-set="active_menu" t-value="'tools'"/>
+                </t>
+                <div class="journal-main-content" style="padding: 0;">
+                    <div class="list-top-header">
+                        <a href="/journaling/list" class="back-btn">
+                            <i class="fa fa-arrow-left"/>
+                        </a>
+                        <span style="color: white; font-weight: 800; font-size: 20px; margin-left: 20px;">Tulis Jurnal Baru</span>
+                    </div>
+
+                    <div class="writing-container">
+                        <form action="/journaling/save" method="post" enctype="multipart/form-data" class="writing-card theme-teal" id="writing_card" style="padding: 40px; transition: background 0.5s ease;">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            
+                            <!-- Zen Premium Control Bar -->
+                            <div class="zen-control-bar">
+                                <!-- Categories (Left) -->
+                                <div class="cat-pills">
+                                    <input type="radio" name="category" value="past" id="cat_past" class="selector-item" style="display:none;"/>
+                                    <label for="cat_past" class="cat-pill-label">Masa Lalu</label>
+                                    
+                                    <input type="radio" name="category" value="present" id="cat_present" class="selector-item" style="display:none;" checked="checked"/>
+                                    <label for="cat_present" class="cat-pill-label">Masa Ini</label>
+                                    
+                                    <input type="radio" name="category" value="future" id="cat_future" class="selector-item" style="display:none;"/>
+                                    <label for="cat_future" class="cat-pill-label">Masa Depan</label>
+                                </div>
+
+                                <!-- Colors (Right) -->
+                                <div class="color-palette">
+                                    <input type="radio" name="color_theme" value="teal" id="color_teal" class="selector-item color-item" style="display:none;" checked="checked"/>
+                                    <label for="color_teal" class="color-circle theme-teal-circle"></label>
+
+                                    <input type="radio" name="color_theme" value="pink" id="color_pink" class="selector-item color-item" style="display:none;"/>
+                                    <label for="color_pink" class="color-circle theme-pink-circle"></label>
+
+                                    <input type="radio" name="color_theme" value="green" id="color_green" class="selector-item color-item" style="display:none;"/>
+                                    <label for="color_green" class="color-circle theme-green-circle"></label>
+
+                                    <input type="radio" name="color_theme" value="yellow" id="color_yellow" class="selector-item color-item" style="display:none;"/>
+                                    <label for="color_yellow" class="color-circle theme-yellow-circle"></label>
+
+                                    <input type="radio" name="color_theme" value="purple" id="color_purple" class="selector-item color-item" style="display:none;"/>
+                                    <label for="color_purple" class="color-circle theme-purple-circle"></label>
+
+                                    <input type="radio" name="color_theme" value="orange" id="color_orange" class="selector-item color-item" style="display:none;"/>
+                                    <label for="color_orange" class="color-circle theme-orange-circle"></label>
+
+                                    <input type="radio" name="color_theme" value="blue" id="color_blue" class="selector-item color-item" style="display:none;"/>
+                                    <label for="color_blue" class="color-circle theme-blue-circle"></label>
+
+                                    <input type="radio" name="color_theme" value="red" id="color_red" class="selector-item color-item" style="display:none;"/>
+                                    <label for="color_red" class="color-circle theme-red-circle"></label>
+                                </div>
+                            </div>
+
+                            <h2 id="writing_title" style="font-weight: 800; color: rgba(45, 52, 54, 0.8); margin-bottom: 25px; font-size: 24px;">Untuk : Diriku di Masa Ini</h2>
+
+                            <!-- Konten -->
+                            <div class="form-group-zen" style="width: 100%;">
+                                <textarea name="content" class="input-zen textarea-zen" style="background: transparent; border: none; outline: none; width: 100%; padding: 0; font-size: 20px; line-height: 1.6; color: #2D3436; min-height: 350px; resize: vertical; box-shadow: none;" placeholder="Tuliskan pikiran dan perasaanmu di sini..." required="required"></textarea>
+                            </div>
+
+                            <!-- Footer Actions -->
+                            <div class="card-footer-actions">
+                                <div>
+                                    <input type="file" name="image" id="image_upload" style="display: none;" accept="image/*"/>
+                                    <label for="image_upload" class="action-circle btn-upload-zen">
+                                        <i class="fa fa-camera"/>
+                                    </label>
+                                </div>
+                                <div style="display: flex; gap: 20px; align-items: center;">
+                                    <a href="/journaling/list" class="action-circle btn-delete-zen">
+                                        <i class="fa fa-trash-o"/>
+                                    </a>
+                                    <button type="submit" class="btn-zen btn-primary-zen" style="padding: 14px 50px; font-size: 18px; border-radius: 20px;">
+                                        Simpan
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <script>
+                // Update title based on category
+                document.querySelectorAll('input[name="category"]').forEach(input => {
+                    input.addEventListener('change', (e) => {
+                        const labels = {
+                            'past': 'Masa Lalu',
+                            'present': 'Masa Ini',
+                            'future': 'Masa Depan'
+                        };
+                        document.getElementById('writing_title').innerText = 'Untuk : Diriku di ' + labels[e.target.value];
+                    });
+                });
+
+                // Update theme colors instantly
+                document.querySelectorAll('input[name="color_theme"]').forEach(input => {
+                    input.addEventListener('change', (e) => {
+                        const theme = e.target.value;
+                        const writingCard = document.getElementById('writing_card');
+                        if (writingCard) {
+                            writingCard.className = 'writing-card theme-' + theme;
+                        }
+                    });
+                });
+            </script>
+        </t>
+    </template>
+    <!-- Halaman Detail Jurnal -->
+    <template id="website_journal_detail" name="Journal Detail">
+        <t t-call="student_journaling.journal_zen_layout">
+            <div class="website-journal-wrapper">
+                <t t-call="student_journaling.journal_sidebar_content">
+                    <t t-set="active_menu" t-value="'tools'"/>
+                </t>
+                <div class="journal-main-content" style="padding: 0;">
+                    <div t-attf-class="list-top-header theme-#{journal.color_theme or 'teal'}">
+                        <a href="/journaling/list" class="back-btn">
+                            <i class="fa fa-arrow-left"/>
+                        </a>
+                        <span style="color: white; font-weight: 800; font-size: 20px; margin-left: 20px;">Detail Jurnal</span>
+                    </div>
+
+                    <div class="writing-container">
+                        <div t-attf-class="writing-card theme-#{journal.color_theme}" style="padding: 50px;">
+                            <div class="card-top" style="margin-bottom: 30px;">
+                                <div class="tag-masa">
+                                    <t t-if="journal.category == 'past'">Masa Lalu</t>
+                                    <t t-elif="journal.category == 'present'">Masa Ini</t>
+                                    <t t-elif="journal.category == 'future'">Masa Depan</t>
+                                </div>
+                                <div style="display: flex; gap: 15px; align-items: center;">
+                                    <span class="card-date-text" style="color: rgba(45, 52, 54, 0.6); font-weight: 700;">
+                                        <span t-field="journal.date" t-options='{"widget": "date", "format": "d MMMM yyyy"}'/>
+                                    </span>
+                                    <a t-attf-href="/journaling/delete/#{journal.id}" class="action-circle btn-delete-zen" style="width: 35px; height: 35px; font-size: 14px;" onclick="return confirm('Apakah Anda yakin ingin menghapus kenangan ini?')">
+                                        <i class="fa fa-trash-o"/>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <h2 style="font-weight: 800; color: rgba(45, 52, 54, 0.8); margin-bottom: 25px;">Untuk : Diriku di <t t-if="journal.category == 'past'">Masa Lalu</t><t t-elif="journal.category == 'present'">Masa Ini</t><t t-elif="journal.category == 'future'">Masa Depan</t></h2>
+                            
+                            <div class="journal-content" style="font-size: 18px; line-height: 1.8; color: #2D3436; margin-bottom: 40px; white-space: pre-wrap;">
+                                <t t-esc="journal.content"/>
+                            </div>
+
+                            <t t-if="journal.image">
+                                <div class="journal-image-display" style="margin-top: 30px; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                                    <img t-attf-src="data:image/png;base64,#{journal.image}" style="width: 100%; height: auto; max-height: 500px; object-fit: cover;"/>
+                                </div>
+                            </t>
+                            
+                            <hr style="margin: 40px 0; border: none; border-top: 2px solid rgba(255,255,255,0.3);"/>
+                            
+                            <div style="display: flex; justify-content: flex-start;">
+                                <a href="/journaling/list" style="display: flex; align-items: center; gap: 8px; padding: 10px 0; color: inherit !important; text-decoration: none !important; font-weight: 600;">
+                                    <i class="fa fa-chevron-left"/> Kembali ke Daftar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

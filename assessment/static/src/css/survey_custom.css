@@ -1,0 +1,1095 @@
+/* ===================================================
+   TK ASSESSMENT — LAYOUT WITH SIDEBAR
+   =================================================== */
+
+.tk-assess-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ============================================
+   SIDEBAR NAVIGATION
+   ============================================ */
+.tk-assess-layout .sidebar {
+    width: 280px;
+    background: #ffffff;
+    color: var(--text, #0f172a);
+    padding: 32px 20px;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: var(--transition, all 0.2s ease);
+    z-index: 1000;
+    border-right: 1px solid var(--border, #e2e8f0);
+    box-shadow: var(--shadow-md, 0 8px 24px rgba(15, 23, 42, 0.08));
+    display: flex;
+    flex-direction: column;
+}
+
+.tk-assess-layout .sidebar .logout-btn {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    color: var(--danger, #ef4444);
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition, all 0.2s ease);
+}
+
+.tk-assess-layout .sidebar .logout-btn:hover {
+    background: rgba(239, 68, 68, 0.14);
+}
+
+.tk-assess-layout .sidebar .logout-btn .icon {
+    font-size: 18px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.tk-assess-layout .sidebar.collapsed .logout-btn {
+    justify-content: center;
+    padding: 12px;
+}
+
+.tk-assess-layout .sidebar.collapsed .logout-btn span:last-child {
+    display: none;
+}
+
+.tk-assess-layout .sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tk-assess-layout .sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tk-assess-layout .sidebar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.tk-assess-layout .sidebar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* LOGO */
+.tk-assess-layout .logo {
+    font-size: 10px;
+    font-weight: 500;
+    margin-bottom: 40px;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--primary, #4f46e5) 0%, var(--secondary, #14b8a6) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Image logo sizing (for <img class="logo" />) */
+.tk-assess-layout .sidebar img.logo {
+    width: 64px;
+    height: auto;
+    display: block;
+    margin: 0 auto 24px;
+    border-radius: 6px;
+}
+
+.tk-assess-layout .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tk-assess-layout .menu-title {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    padding: 0 8px;
+    margin-bottom: 6px;
+}
+
+.tk-assess-layout .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    color: #334155;
+    font-size: 0.92rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition, all 0.2s ease);
+}
+
+.tk-assess-layout .menu-item:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+    text-decoration: none;
+}
+
+.tk-assess-layout .menu-item.active {
+    background: linear-gradient(135deg, #7f7bf6 0%, #6358df 100%);
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 8px 18px rgba(99, 88, 223, 0.16);
+}
+
+.tk-assess-layout .menu-item.active .icon {
+    color: #ffffff;
+}
+
+.tk-assess-layout .menu-item .icon {
+    width: 20px;
+    text-align: center;
+    font-size: 18px;
+}
+
+/* Area konten utama — geser ke kanan sejauh lebar sidebar */
+.tk-assess-main {
+    margin-left: 280px;
+    flex: 1;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f7eef8 0%, #f5edf8 100%);
+}
+
+/* Override container Bootstrap bawaan Odoo di halaman survey start */
+.tk-assess-layout .o_survey_form_content,
+.tk-assess-layout .o_survey_page_content,
+.tk-assess-layout form > .container,
+.tk-assess-layout form > .container-fluid,
+.tk-assess-layout .o_survey_start_buttons {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Paksa col bawaan Odoo tidak membatasi lebar */
+.tk-assess-layout .o_survey_start .col,
+.tk-assess-layout .o_survey_start [class*="col-"] {
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+/* Override wrap supaya padding dari main, bukan dari body */
+.tk-assess-main .tk-assess-wrap {
+    max-width: 930px;
+    margin: 0 auto;
+    padding: 1.5rem 2.25rem 3rem;
+}
+
+/* Hide Odoo default title and use custom one inside our layout */
+.o_survey_title,
+.o_survey_start h1,
+.tk-survey-page-title,
+.tk-assess-layout h1.o_survey_title {
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    font-family: 'Nunito', sans-serif !important;
+    color: #2D2A4A !important;
+    white-space: nowrap !important;
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    overflow-wrap: normal !important;
+    word-break: keep-all !important;
+    hyphens: none !important;
+    margin: 0 0 1.5rem 0 !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+}
+
+.o_survey_title br,
+.o_survey_start h1 br,
+.tk-survey-page-title br {
+    display: none;
+}
+
+
+/* Mobile — sembunyikan sidebar, konten full width */
+@media (max-width: 768px) {
+    .tk-assess-layout .sidebar {
+        display: none;
+    }
+    .tk-assess-main {
+        margin-left: 0;
+    }
+
+    .tk-assess-layout {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+    }
+
+    .tk-assess-layout .tk-assess-main {
+        width: 100% !important;
+    }
+}
+
+/* ===================================================
+   TK ASSESSMENT — HALAMAN START (REDESIGN)
+   =================================================== */
+
+.tk-assess-wrap {
+    max-width: 930px;
+    margin: 0 auto;
+    padding: 1.25rem 1.5rem 3rem;
+    font-family: 'Nunito', sans-serif;
+    animation: tk-fade-up 0.6s ease both;
+}
+
+@keyframes tk-fade-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Badge row */
+.tk-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.75rem;
+    animation: tk-fade-up 0.6s 0.1s ease both;
+}
+
+.tk-badge {
+    background: #EEEDFE;
+    color: #534AB7;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 99px;
+}
+
+.tk-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #1D9E75;
+    display: inline-block;
+}
+
+.tk-badge-brand {
+    font-size: 12px;
+    color: #888780;
+    font-weight: 600;
+}
+
+/* Card utama */
+.tk-assess-card {
+    background: linear-gradient(135deg, #7F77DD 0%, #534AB7 50%, #3C3489 100%);
+    border-radius: 30px;
+    padding: 2.5rem 2.75rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    animation: tk-fade-up 0.6s 0.15s ease both;
+    max-width: 860px;
+}
+
+/* Lingkaran dekoratif floating */
+.tk-deco-circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.12;
+    pointer-events: none;
+    background: white;
+}
+
+.tk-deco-c1 {
+    width: 220px;
+    height: 220px;
+    top: -60px;
+    right: -60px;
+    animation: tk-float 6s ease-in-out infinite;
+}
+
+.tk-deco-c2 {
+    width: 140px;
+    height: 140px;
+    bottom: -40px;
+    left: -30px;
+    animation: tk-float 6s 2s ease-in-out infinite;
+}
+
+.tk-deco-c3 {
+    width: 80px;
+    height: 80px;
+    top: 40%;
+    right: 10%;
+    animation: tk-float 4s 1s ease-in-out infinite;
+}
+
+@keyframes tk-float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-12px); }
+}
+
+/* Card top row */
+.tk-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.tk-card-icon {
+    width: 52px;
+    height: 52px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+
+
+
+/* Judul & deskripsi */
+.tk-card-title {
+    font-size: 1.9rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.tk-card-desc {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+}
+
+/* Stat pills */
+.tk-stats-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+}
+
+.tk-stat-pill {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    flex: 1;
+    min-width: 110px;
+    color: white;
+}
+
+.tk-stat-pill i {
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+/* Tombol mulai */
+.tk-assess-btn {
+    width: 100%;
+    padding: 16px;
+    background: white;
+    color: #534AB7;
+    border: none;
+    border-radius: 16px;
+    font-size: 1rem;
+    font-weight: 800;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    z-index: 1;
+}
+
+.tk-assess-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.tk-btn-arrow {
+    width: 28px;
+    height: 28px;
+    background: #534AB7;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+/* Notes */
+.tk-notes-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #888780;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.75rem;
+    font-family: 'Nunito', sans-serif;
+}
+
+.tk-notes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    animation: tk-fade-up 0.6s 0.3s ease both;
+}
+
+.tk-note {
+    background: white;
+    border-radius: 0 16px 16px 0;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border: 0.5px solid #E8E6F8;
+}
+
+.tk-note-pink {
+    border-left: 3px solid #7F77DD;
+}
+
+.tk-note-green {
+    border-left: 3px solid #1D9E75;
+}
+
+.tk-note-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+}
+
+.tk-note-pink .tk-note-icon  { background: #EEEDFE; }
+.tk-note-green .tk-note-icon { background: #E1F5EE; }
+
+.tk-note-body strong {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 800;
+    margin-bottom: 2px;
+    color: #2D2A4A;
+    font-family: 'Nunito', sans-serif;
+}
+
+.tk-note-body p {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    margin: 0;
+    color: #6b7280;
+}
+
+@media (max-width: 480px) {
+    .tk-notes-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ===================================================
+   TK ASSESSMENT — LIKERT CARDS (PILIHAN C)
+   =================================================== */
+
+/* Nomor soal */
+.tk_q_number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: #EEEDFE;
+    color: #534AB7;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    border-radius: 50%;
+    margin-bottom: 16px;
+}
+
+/* Teks pernyataan */
+.tk_q_label {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2D2A4A;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.tk_q_required {
+    color: #D4537E;
+    margin-left: 4px;
+}
+
+/* Container pilihan */
+.tk_likert_options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Setiap card pilihan */
+.tk_likert_card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 2px solid #E8E6F8;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #fff;
+    user-select: none;
+}
+
+.tk_likert_card:hover {
+    border-color: #7F77DD;
+    background: #F4F3FD;
+}
+
+/* Sembunyikan radio asli */
+.tk_likert_radio {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+/* Dot custom */
+.tk_likert_dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #C5C1EE;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.tk_likert_dot::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #534AB7;
+    transition: transform 0.2s ease;
+}
+
+/* Teks label */
+.tk_likert_text {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    color: #3D3A5C;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+/* State: terpilih — pakai JS untuk tambah class */
+.tk_likert_card.tk_selected {
+    border-color: #534AB7;
+    background: #ECEAFB;
+}
+
+.tk_likert_card.tk_selected .tk_likert_dot {
+    border-color: #534AB7;
+}
+
+.tk_likert_card.tk_selected .tk_likert_dot::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.tk_likert_card.tk_selected .tk_likert_text {
+    color: #534AB7;
+    font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .tk_likert_card {
+        padding: 12px 14px;
+    }
+    .tk_q_label {
+        font-size: 1.05rem;
+    }
+}
+
+/* ===================================================
+   TK ASSESSMENT — PROGRESS BAR ATAS SOAL
+   =================================================== */
+
+.tk_progress_wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #EEF0F8;
+    border: 1px solid #E2E6F2;
+    border-radius: 14px;
+    padding: 10px 12px;
+    margin: 4px 0 18px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.tk_progress_track {
+    flex: 1;
+    height: 8px;
+    background: #DDE2F0;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.tk_progress_fill {
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #7F77DD, #534AB7);
+    transition: width 0.35s ease;
+}
+
+.tk_progress_label {
+    font-size: 0.84rem;
+    font-weight: 800;
+    color: #534AB7;
+    white-space: nowrap;
+}
+
+/* ===================================================
+   TK ASSESSMENT — OVERRIDE TOMBOL NAVIGASI ODOO
+   =================================================== */
+
+/* Wrapper tombol */
+.o_survey_page_per_question .col-12.text-center {
+    display: flex !important;
+    justify-content: stretch !important;
+    align-items: center !important;
+    gap: 0 !important;
+    text-align: left !important;
+    margin-top: 24px !important;
+    padding-bottom: 40px !important;
+}
+
+.tk_nav_actions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.tk_nav_left,
+.tk_nav_right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tk_nav_right {
+    margin-left: auto;
+}
+
+/* Sembunyikan teks "or press Enter" */
+#enter-tooltip {
+    display: none !important;
+}
+
+.tk_btn_prev {
+    border: 1px solid #D4D9E9 !important;
+    background: #FFFFFF !important;
+    color: #534AB7 !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    padding: 12px 18px !important;
+    border-radius: 12px !important;
+    transition: all 0.2s ease !important;
+}
+
+.tk_btn_prev:hover {
+    border-color: #7F77DD !important;
+    background: #F5F3FF !important;
+    color: #534AB7 !important;
+}
+
+/* Tombol Continue/Submit custom */
+.tk_btn_next {
+    background: linear-gradient(135deg, #7F77DD, #534AB7) !important;
+    border: none !important;
+    color: white !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    padding: 12px 32px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 14px rgba(83, 74, 183, 0.35) !important;
+    transition: all 0.2s ease !important;
+    
+}
+
+.tk_btn_next:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 20px rgba(83, 74, 183, 0.45) !important;
+}
+
+@media (max-width: 600px) {
+    .tk_progress_wrap {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .tk_progress_label {
+        text-align: right;
+    }
+
+    .tk_nav_actions {
+        flex-wrap: wrap;
+    }
+
+    .tk_nav_left,
+    .tk_nav_right {
+        width: 100%;
+    }
+
+    .tk_nav_right {
+        justify-content: flex-end;
+    }
+}
+
+/* Sembunyikan progress bar bawaan Odoo di footer */
+.o_survey_progress_wrapper {
+    display: none !important;
+}
+
+/* Sembunyikan brand Odoo di footer */
+.o_survey_brand_message {
+    display: none !important;
+}
+
+/* Styling tombol Continue */
+.o_survey_page_per_question button[value="next"],
+.o_survey_page_per_question button[value="finish"] {
+    background: linear-gradient(135deg, #7F77DD, #534AB7) !important;
+    border: none !important;
+    color: white !important;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    padding: 12px 32px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 14px rgba(83, 74, 183, 0.35) !important;
+    transition: all 0.2s ease !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* Tombol disabled */
+.o_survey_page_per_question button[value="next"].disabled,
+.o_survey_page_per_question button[value="finish"].disabled {
+    opacity: 0.45 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* Force disable tombol Continue via JS */
+.o_survey_page_per_question button.tk_force_disabled {
+    opacity: 0.45 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    box-shadow: none !important;
+}
+
+/* ===================================================
+   TK ASSESSMENT — HALAMAN HASIL
+   =================================================== */
+
+.tk_result_wrap {
+    max-width: 620px;
+    margin: 40px auto;
+    padding: 0 16px 60px;
+    font-family: 'Nunito', sans-serif;
+}
+
+/* Header */
+.tk_result_header {
+    border-radius: 20px;
+    padding: 36px 32px;
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.tk_result_rendah  { background: linear-gradient(135deg, #D1FAE5, #A7F3D0); }
+.tk_result_sedang  { background: linear-gradient(135deg, #FEF3C7, #FDE68A); }
+.tk_result_tinggi  { background: linear-gradient(135deg, #FEE2E2, #FECACA); }
+
+.tk_result_icon { font-size: 3rem; margin-bottom: 12px; }
+
+.tk_result_title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #2D2A4A;
+    margin-bottom: 8px;
+}
+
+.tk_result_subtitle {
+    font-size: 1rem;
+    color: #4B5563;
+}
+
+/* Score bar */
+.tk_result_score_wrap {
+    background: #fff;
+    border: 2px solid #E8E6F8;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.tk_result_score_label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #534AB7;
+    white-space: nowrap;
+}
+
+.tk_result_score_bar_bg {
+    flex: 1;
+    height: 10px;
+    background: #E8E6F8;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.tk_result_score_bar_fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7F77DD, #534AB7);
+    border-radius: 99px;
+    transition: width 0.8s ease;
+}
+
+.tk_result_score_pct {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #534AB7;
+    white-space: nowrap;
+}
+
+/* Pesan */
+.tk_result_message {
+    background: #F9F8FF;
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    font-size: 1rem;
+    color: #3D3A5C;
+    line-height: 1.7;
+}
+
+/* Rekomendasi */
+.tk_result_rek_title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #2D2A4A;
+    margin-bottom: 16px;
+}
+
+.tk_rek_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.tk_rek_card {
+    background: #fff;
+    border: 2px solid #E8E6F8;
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #3D3A5C;
+    line-height: 1.5;
+}
+
+.tk_rek_icon {
+    display: block;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+/* Konseling */
+.tk_rek_konseling {
+    background: #FEE2E2;
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+    color: #7F1D1D;
+    line-height: 1.7;
+}
+
+.tk_btn_konseling {
+    display: inline-block;
+    margin-top: 12px;
+    background: #D4537E;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.tk_btn_konseling:hover {
+    background: #993556;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Tombol aksi */
+.tk_result_actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.tk_btn_home {
+    display: inline-block;
+    background: linear-gradient(135deg, #7F77DD, #534AB7);
+    color: white;
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.tk_btn_home:hover {
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(83, 74, 183, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .tk_result_header { padding: 28px 20px; }
+    .tk_result_score_wrap { flex-wrap: wrap; }
+    .tk_rek_grid { grid-template-columns: 1fr; }
+}
+
+/* Tombol coba lagi */
+.tk_btn_retake {
+    display: inline-block;
+    background: white;
+    color: #534AB7;
+    border: 2px solid #7F77DD;
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-family: 'Nunito', sans-serif;
+}
+
+.tk_btn_retake:hover {
+    background: #EEEDFE;
+    color: #534AB7;
+    transform: translateY(-1px);
+}
+
+/* ===================================================
+   TK ASSESSMENT — FINAL OVERRIDE START PAGE
+   =================================================== */
+
+/* Make start page content wider so card no longer looks squeezed */
+.tk-assess-layout .tk-assess-main .tk-assess-wrap {
+    max-width: 930px !important;
+    width: 100% !important;
+    padding: 1.5rem 2.25rem 3rem !important;
+}
+
+/* Remove white panel from native Odoo wrappers behind custom card */
+.tk-assess-layout .tk-assess-main .o_survey_start,
+.tk-assess-layout .tk-assess-main .o_survey_form_content,
+.tk-assess-layout .tk-assess-main .o_survey_page_content,
+.tk-assess-layout .tk-assess-main form,
+.tk-assess-layout .tk-assess-main .container,
+.tk-assess-layout .tk-assess-main .container-fluid,
+.tk-assess-layout .tk-assess-main .row,
+.tk-assess-layout .tk-assess-main [class*="col-"] {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Bigger hero card */
+.tk-assess-layout .tk-assess-main .tk-assess-card {
+    width: 100% !important;
+    max-width: 860px !important;
+    border-radius: 30px !important;
+    padding: 2.5rem 2.75rem !important;
+}
+
+.tk-assess-layout .tk-assess-main .tk-card-title {
+    font-size: 2.1rem !important;
+}
+
+.tk-assess-layout .tk-assess-main .tk-card-desc {
+    font-size: 1.02rem !important;
+}
+
+@media (max-width: 992px) {
+    .tk-assess-layout .tk-assess-main .tk-assess-wrap {
+        max-width: 100% !important;
+        padding: 1.25rem 1rem 2.5rem !important;
+    }
+
+    .tk-assess-layout .tk-assess-main .tk-assess-card {
+        max-width: 100% !important;
+        border-radius: 24px !important;
+        padding: 2.2rem !important;
+    }
+
+    .tk-assess-layout .tk-assess-main .tk-card-title {
+        font-size: 1.9rem !important;
+    }
+}
+

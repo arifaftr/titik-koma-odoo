@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <template id="edit_profile_template" name="Edit Profile">
+        <t t-call="website.layout">
+            <link rel="stylesheet" href="/edit_profil2/static/src/css/style.css"/>
+            <section class="s_edit_profile_page">
+                <div class="container">
+                    <div class="profile-card">
+
+                        <!-- Header ungu dengan tombol kembali -->
+                        <div class="profile-card-top">
+                            <a class="back-link" href="/">&#8592;</a>
+                        </div>
+
+                        <div class="profile-body">
+
+                            <!-- Foto Profil -->
+                            <div class="avatar-wrap">
+                                <t t-if="partner.image_1920">
+                                    <img class="avatar-img"
+                                         t-attf-src="/web/image/res.partner/#{partner.id}/image_1920"
+                                         alt="Foto Profil"/>
+                                </t>
+                                <t t-else="">
+                                    <div class="avatar">
+                                        <span class="avatar-initials"
+                                              t-esc="(user.name or user.login)[0].upper()"/>
+                                    </div>
+                                </t>
+                                <h2 class="profile-name" t-esc="user.name"/>
+                                <div class="profile-sub"
+                                     t-esc="partner.x_prodi or 'Program studi belum diisi'"/>
+                            </div>
+
+                            <div class="progress-line"/>
+
+                            <!-- Flash message sukses -->
+                            <t t-if="request.params.get('saved')">
+                                <div class="tk-alert-success">
+                                    ✅ Profil berhasil diperbarui!
+                                </div>
+                            </t>
+
+                            <!-- Form -->
+                            <form action="/update-profil" method="post"
+                                  enctype="multipart/form-data" class="profile-form">
+                                <input type="hidden" name="csrf_token"
+                                       t-att-value="request.csrf_token()"/>
+
+                                <!-- Upload Foto -->
+                                <div class="field">
+                                    <label>Foto Profil</label>
+                                    <div class="input-pill">
+                                        <input type="file" name="foto" accept="image/*"/>
+                                    </div>
+                                </div>
+
+                                <!-- Nama -->
+                                <div class="field">
+                                    <label>Nama Lengkap</label>
+                                    <div class="input-pill">
+                                        <input type="text" name="name"
+                                               t-att-value="user.name"/>
+                                        <span class="underline"/>
+                                    </div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="field">
+                                    <label>Email</label>
+                                    <div class="input-pill">
+                                        <input type="email" name="email"
+                                               t-att-value="user.email or ''"/>
+                                        <span class="underline"/>
+                                    </div>
+                                </div>
+
+                                <!-- Telepon -->
+                                <div class="field">
+                                    <label>No. Telepon</label>
+                                    <div class="input-pill">
+                                        <input type="text" name="phone"
+                                               t-att-value="partner.phone or ''"/>
+                                        <span class="underline"/>
+                                    </div>
+                                </div>
+
+                                <!-- NIM -->
+                                <div class="field">
+                                    <label>NIM</label>
+                                    <div class="input-pill">
+                                        <input type="text" name="nim"
+                                               t-att-value="partner.x_nim or ''"/>
+                                        <span class="underline"/>
+                                    </div>
+                                </div>
+
+                                <!-- Institusi -->
+                                <div class="field">
+                                    <label>Institusi</label>
+                                    <div class="input-pill">
+                                        <input type="text" name="institusi"
+                                               t-att-value="partner.x_institusi or ''"/>
+                                        <span class="underline"/>
+                                    </div>
+                                </div>
+
+                                <!-- Program Studi -->
+                                <div class="field">
+                                    <label>Program Studi</label>
+                                    <div class="input-pill">
+                                        <input type="text" name="prodi"
+                                               t-att-value="partner.x_prodi or ''"/>
+                                        <span class="underline"/>
+                                    </div>
+                                </div>
+
+                                <!-- Password Baru -->
+                                <div class="field">
+                                    <label>Password Baru
+                                        <small>(kosongkan jika tidak ingin ubah)</small>
+                                    </label>
+                                    <div class="input-pill">
+                                        <input type="password" name="password_baru"
+                                               placeholder="Masukkan password baru"/>
+                                        <span class="underline"/>
+                                    </div>
+                                </div>
+
+                                <!-- Konfirmasi Password -->
+                                <div class="field">
+                                    <label>Konfirmasi Password Baru</label>
+                                    <div class="input-pill">
+                                        <input type="password" name="password_konfirmasi"
+                                               placeholder="Ulangi password baru"/>
+                                        <span class="underline"/>
+                                    </div>
+                                </div>
+
+                                <!-- Tombol Simpan -->
+                                <div class="actions">
+                                    <button type="submit" class="btn-save">
+                                        Simpan Perubahan
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+
+</odoo>

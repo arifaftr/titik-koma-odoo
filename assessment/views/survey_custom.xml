@@ -1,0 +1,468 @@
+<odoo>
+  <data>
+    <template id="tk_survey_start" inherit_id="survey.survey_fill_form_start">
+
+
+      <xpath expr="//div[hasclass('o_survey_start')]" position="replace">
+
+        <!-- Layout wrapper: sidebar + konten -->
+        <div class="tk-assess-layout" style="width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);overflow-x:hidden;">
+
+                    <!-- Sidebar -->
+                    <aside class="sidebar" id="sidebar">
+
+                        <img src="/titikkoma/static/src/img/titikkomalogo1.png" alt="Titik Koma" class="logo"/>
+
+                        <nav class="menu" style="margin-top: 30px;">
+
+                            <div class="menu-title">Menu Utama</div>
+
+                            <a href="/" class="menu-item">
+                                <span class="icon">🏠</span>
+                                <span>Beranda</span>
+                            </a>
+
+                            <a href="/assessment/retry/4591d5f4-b6f7-4991-aab7-9fdae2847b7e" class="menu-item active">
+                                <span class="icon">📋</span>
+                                <span>Self Assessment</span>
+                            </a>
+
+                            <a href="/mood-tracker" class="menu-item">
+                                <span class="icon">📊</span>
+                                <span>Mood Tracker</span>
+                            </a>
+
+                            <div class="menu-title" style="margin-top: 30px;">Dukungan</div>
+
+                            <a href="/self-help-tools" class="menu-item">
+                                <span class="icon">📚</span>
+                                <span>Self-Help Tools</span>
+                            </a>
+
+                            <a href="/chatbot" class="menu-item">
+                                <span class="icon">🤖</span>
+                                <span>Chatbot AI</span>
+                            </a>
+
+                            <a href="/konseling" class="menu-item">
+                                <span class="icon">💬</span>
+                                <span>Konseling</span>
+                            </a>
+
+                        </nav>
+
+                        <a href="/web/session/logout" class="menu-item logout-btn">
+                            <span class="icon">⏻</span>
+                            <span>Logout</span>
+                        </a>
+
+                    </aside>
+
+          <!-- Konten utama -->
+                    <div class="tk-assess-main" style="width:calc(100vw - 280px);background:linear-gradient(180deg,#f7eef8 0%,#f5edf8 100%);">
+                    <div class="tk-assess-wrap" style="max-width:930px;width:100%;padding:1.5rem 2.25rem 3rem;background:transparent;">
+
+          <!-- Badge row -->
+          <div class="tk-badge-row">
+            <span class="tk-badge">Self-Assessment</span>
+            <span class="tk-badge-dot"></span>
+            <span class="tk-badge-brand">Titik Koma</span>
+          </div>
+
+          <!-- Card utama -->
+          <div class="tk-assess-card" style="max-width:860px;width:100%;padding:2.5rem 2.75rem;border-radius:30px;">
+            <div class="tk-deco-circle tk-deco-c1"></div>
+            <div class="tk-deco-circle tk-deco-c2"></div>
+            <div class="tk-deco-circle tk-deco-c3"></div>
+
+            <div class="tk-card-top">
+              <div class="tk-card-icon">🧠</div>
+              
+            </div>
+
+            <h1 class="tk-card-title">Kenali Kondisi<br/>Mentalmu</h1>
+            <p class="tk-card-desc">Jawab 14 pertanyaan sederhana untuk memahami tingkat kecemasan yang kamu alami saat ini. Hasil langsung tersedia.</p>
+
+            <div class="tk-stats-row">
+              <div class="tk-stat-pill">
+                <i class="fa fa-clock-o"/> 2–3 menit
+              </div>
+              <div class="tk-stat-pill">
+                <i class="fa fa-check-circle-o"/> 14 pertanyaan
+              </div>
+              <div class="tk-stat-pill">
+                <i class="fa fa-star-o"/> Hasil personal
+              </div>
+            </div>
+
+            <!-- value="start" wajib dipertahankan -->
+            <button type="submit" value="start" class="tk-assess-btn disabled">
+              Mulai Assessment
+              <span class="tk-btn-arrow">→</span>
+            </button>
+          </div>
+
+          <!-- Informasi penting -->
+          <p class="tk-notes-title">INFORMASI PENTING</p>
+          <div class="tk-notes-grid">
+            <div class="tk-note tk-note-pink">
+              <div class="tk-note-icon">🔒</div>
+              <div class="tk-note-body">
+                <strong>Privasi Terjamin</strong>
+                <p>Jawaban kamu bersifat pribadi dan aman.</p>
+              </div>
+            </div>
+            <div class="tk-note tk-note-green">
+              <div class="tk-note-icon">📋</div>
+              <div class="tk-note-body">
+                <strong>Bukan Diagnosis Medis</strong>
+                <p>Hanya panduan awal. Konsultasi profesional tetap disarankan.</p>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /tk-assess-wrap -->
+          </div><!-- /tk-assess-main -->
+        </div><!-- /tk-assess-layout -->
+      </xpath>
+    </template>
+
+    <!-- ===== OVERRIDE TAMPILAN PILIHAN JAWABAN LIKERT ===== -->
+    <template id="tk_survey_question_likert" inherit_id="survey.question_simple_choice">
+
+        <xpath expr="//div[hasclass('o_survey_answer_wrapper')]" position="replace">
+            <div class="o_survey_answer_wrapper o_survey_form_choice tk_likert_options"
+                t-att-data-name="question.id"
+                t-att-data-is-skipped-question="is_skipped_question or None"
+                data-question-type="simple_choice_radio">
+
+                <t t-foreach="question.suggested_answer_ids" t-as="label">
+                    <t t-set="answer_selected" t-value="answer_line and answer_line.suggested_answer_id.id == label.id"/>
+
+                    <label t-att-for="str(question.id) + '_' + str(label.id)"
+                          t-attf-class="tk_likert_card #{'tk_selected' if answer_selected else ''}">
+                        <input t-att-id="str(question.id) + '_' + str(label.id)"
+                              type="radio"
+                              t-att-value="label.id"
+                              t-att-name="question.id"
+                              t-att-checked="'checked' if answer_selected else None"
+                              class="tk_likert_radio o_survey_form_choice_item invisible position-absolute"/>
+                        <span class="tk_likert_dot"></span>
+                        <span class="tk_likert_text" t-field="label.value"/>
+                    </label>
+                </t>
+            </div>
+            <!-- Inject JS langsung di sini -->
+            <script type="text/javascript">
+            (function() {
+                function initLikert() {
+                    document.querySelectorAll('.tk_likert_options').forEach(function(group) {
+                        if (group.dataset.likertInit) return;
+                        group.dataset.likertInit = '1';
+
+                        var cards = group.querySelectorAll('.tk_likert_card');
+                        cards.forEach(function(card) {
+                            card.addEventListener('click', function(e) {
+
+                                cards.forEach(function(c) {
+                                    c.classList.remove('tk_selected');
+                                });
+                                card.classList.add('tk_selected');
+
+                                var radio = card.querySelector('.tk_likert_radio');
+                                if (radio &amp;&amp; !radio.checked) {
+                                    radio.checked = true;
+                                    // Hanya dispatch change, JANGAN dispatch click
+                                    radio.dispatchEvent(new Event('change', { bubbles: true }));
+
+                                    var nextBtn = document.querySelector('.o_survey_page_per_question button[value="next"], .o_survey_page_per_question button[value="finish"]');
+                                    if (nextBtn) {
+                                        nextBtn.disabled = false;
+                                        nextBtn.classList.remove('disabled');
+                                        nextBtn.classList.remove('tk_force_disabled');
+                                    }
+                                }
+                            });
+                        });
+
+                        // Restore state
+                        cards.forEach(function(card) {
+                            var radio = card.querySelector('.tk_likert_radio');
+                            if (radio &amp;&amp; radio.checked) {
+                                card.classList.add('tk_selected');
+                            }
+                        });
+                    });
+                }
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', initLikert);
+                } else {
+                    initLikert();
+                }
+            })();
+            </script>
+
+            <script type="text/javascript">
+            (function() {
+                function disableContinueBtn() {
+                    // Cek apakah sudah ada jawaban terpilih
+                    var checked = document.querySelector('.tk_likert_radio:checked');
+                    if (checked) return; // sudah ada jawaban, biarkan aktif
+
+                    // Disable tombol Continue
+                    var nextBtn = document.querySelector('.o_survey_page_per_question button[value="next"], .o_survey_page_per_question button[value="finish"]');
+                    if (nextBtn) {
+                        nextBtn.classList.add('tk_force_disabled');
+                    }
+                }
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', disableContinueBtn);
+                } else {
+                    disableContinueBtn();
+                }
+            })();
+            </script>
+        </xpath>
+
+    </template>
+
+    <!-- ===== HALAMAN SOAL: PROGRESS + NAV BACK CUSTOM ===== -->
+    <template id="tk_survey_fill_form_in_progress" inherit_id="survey.survey_fill_form_in_progress">
+
+        <xpath expr="//div[@t-if=&quot;survey.questions_layout == 'page_per_question'&quot;]" position="before">
+            <t t-set="tk_total_q" t-value="len(survey.question_ids)"/>
+            <t t-set="tk_current_q" t-value="survey.question_ids.ids.index(question.id) + 1 if question and question.id in survey.question_ids.ids else 1"/>
+
+            <div class="tk_progress_wrap"
+                 t-att-data-current="tk_current_q"
+                 t-att-data-total="tk_total_q">
+                <div class="tk_progress_track">
+                    <div id="tk_progress_fill"
+                         class="tk_progress_fill"
+                         t-att-style="'width: ' + str(int((tk_current_q * 100) / (tk_total_q or 1))) + '%'"/>
+                </div>
+                <div class="tk_progress_label">
+                    Soal <span id="tk_current_q"><t t-esc="tk_current_q"/></span>
+                    dari <span id="tk_total_q"><t t-esc="tk_total_q"/></span>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+            (function() {
+                function updateTkProgressBar() {
+                    var wrap = document.querySelector('.tk_progress_wrap');
+                    if (!wrap) return;
+
+                    var fill = wrap.querySelector('#tk_progress_fill');
+                    var currentEl = wrap.querySelector('#tk_current_q');
+                    var totalEl = wrap.querySelector('#tk_total_q');
+
+                    var total = parseInt(wrap.getAttribute('data-total') || (totalEl ? totalEl.textContent : '1'), 10) || 1;
+                    var current = parseInt(wrap.getAttribute('data-current') || (currentEl ? currentEl.textContent : '1'), 10) || 1;
+
+                    if (current &lt; 1) current = 1;
+                    if (current &gt; total) current = total;
+
+                    if (currentEl) currentEl.textContent = String(current);
+                    if (totalEl) totalEl.textContent = String(total);
+
+                    if (fill) {
+                        var pct = Math.round((current / total) * 100);
+                        fill.style.width = pct + '%';
+                    }
+                }
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', updateTkProgressBar);
+                } else {
+                    updateTkProgressBar();
+                }
+            })();
+            </script>
+
+            <script type="text/javascript">
+            (function() {
+                function injectBackButton() {
+                    var navCol = document.querySelector('.o_survey_page_per_question .col-12.text-center');
+                    if (!navCol) return;
+                    if (navCol.querySelector('.tk_btn_prev')) return;
+
+                    // Cek apakah ini bukan soal pertama
+                    var questionId = document.querySelector('input[name="question_id"]');
+                    if (!questionId) return;
+
+                    // Buat wrapper flex
+                    var wrapper = document.createElement('div');
+                    wrapper.className = 'tk_nav_actions';
+
+                    // Tombol back
+                    var leftDiv = document.createElement('div');
+                    leftDiv.className = 'tk_nav_left';
+
+                    // Cek apakah ada soal sebelumnya dari hidden input
+                    var form = document.querySelector('form');
+                    var allInputs = form ? form.querySelectorAll('input[type="hidden"]') : [];
+                    var hasPrev = false;
+
+                    // Soal pertama tidak punya previous — cek dari URL atau data
+                    // Cara mudah: kalau ada token di URL dan bukan soal 1
+                    var progressWrap = document.querySelector('.tk_progress_wrap');
+                    var currentQ = progressWrap ? parseInt(progressWrap.getAttribute('data-current') || '1') : 1;
+
+                    if (currentQ > 1) {
+                        hasPrev = true;
+                        var backBtn = document.createElement('button');
+                        backBtn.type = 'submit';
+                        backBtn.name = 'button_submit';
+                        backBtn.value = 'previous';
+                        backBtn.className = 'btn tk_btn_prev';
+                        backBtn.innerHTML = '← Sebelumnya';
+                        leftDiv.appendChild(backBtn);
+                    }
+
+                    // Pindahkan tombol existing ke kanan
+                    var rightDiv = document.createElement('div');
+                    rightDiv.className = 'tk_nav_right';
+
+                    // Ambil semua child navCol dan pindah ke rightDiv
+                    while (navCol.firstChild) {
+                        rightDiv.appendChild(navCol.firstChild);
+                    }
+
+                    wrapper.appendChild(leftDiv);
+                    wrapper.appendChild(rightDiv);
+                    navCol.appendChild(wrapper);
+                }
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', injectBackButton);
+                } else {
+                    injectBackButton();
+                }
+            })();
+            </script>
+        </xpath>
+
+        
+
+    </template>
+
+    <!-- ===== HALAMAN HASIL ===== -->
+    <template id="tk_survey_done" inherit_id="survey.survey_fill_form_done">
+
+        <xpath expr="//div[hasclass('o_survey_finished')]" position="replace">
+            <div class="tk_result_wrap">
+
+                <!-- Hitung kategori berdasarkan persentase -->
+                <t t-set="pct" t-value="answer.scoring_percentage"/>
+                <t t-set="kategori" t-value="'Tinggi' if pct >= 66 else 'Sedang' if pct >= 33 else 'Rendah'"/>
+                <t t-set="is_tinggi" t-value="pct >= 67"/>
+                <t t-set="is_sedang" t-value="pct >= 34 and pct &lt; 67"/>
+                <t t-set="is_rendah" t-value="pct &lt; 34"/>
+
+                <!-- Header hasil -->
+                <div t-attf-class="tk_result_header #{'tk_result_tinggi' if is_tinggi else 'tk_result_sedang' if is_sedang else 'tk_result_rendah'}">
+                    <div class="tk_result_icon">
+                        <t t-if="is_rendah">🌿</t>
+                        <t t-elif="is_sedang">🌤️</t>
+                        <t t-else="">⚠️</t>
+                    </div>
+                    <h2 class="tk_result_title">
+                        <t t-if="is_rendah">Kamu Baik-Baik Saja</t>
+                        <t t-elif="is_sedang">Perlu Sedikit Perhatian</t>
+                        <t t-else="">Butuh Dukungan Lebih</t>
+                    </h2>
+                    <p class="tk_result_subtitle">
+                        Tingkat: <strong><t t-esc="kategori"/></strong>
+                    </p>
+                </div>
+
+                <!-- Skor visual -->
+                <div class="tk_result_score_wrap">
+                    <div class="tk_result_score_label">Skor kamu</div>
+                    <div class="tk_result_score_bar_bg">
+                        <div class="tk_result_score_bar_fill"
+                            t-att-style="'width: ' + str(int(pct)) + '%'"/>
+                    </div>
+                    <div class="tk_result_score_pct"><t t-esc="int(pct)"/>%</div>
+                </div>
+
+                <!-- Pesan per kategori -->
+                <div class="tk_result_message">
+                    <t t-if="is_rendah">
+                        <p>Hasil assessmentmu menunjukkan kondisi mentalmu saat ini <strong>cukup baik</strong>. Tetap jaga kesehatanmu dengan aktivitas positif ya!</p>
+                    </t>
+                    <t t-elif="is_sedang">
+                        <p>Hasil assessmentmu menunjukkan kamu sedang mengalami <strong>beberapa tekanan</strong>. Tidak apa-apa, yuk kenali lebih dalam dan ambil langkah kecil untuk dirimu.</p>
+                    </t>
+                    <t t-else="">
+                        <p>Hasil assessmentmu menunjukkan kamu mungkin sedang <strong>membutuhkan dukungan lebih</strong>. Kamu tidak sendirian — ada yang bisa membantumu.</p>
+                    </t>
+                </div>
+
+                <!-- Rekomendasi -->
+                <div class="tk_result_rekomendasi">
+                    <h3 class="tk_result_rek_title">
+                        <t t-if="is_tinggi">Rekomendasi Konseling</t>
+                        <t t-else="">Tips Self-Help</t>
+                    </h3>
+
+                    <t t-if="is_rendah">
+                        <div class="tk_rek_grid">
+                            <div class="tk_rek_card">
+                                <span class="tk_rek_icon">🧘</span>
+                                <p>Luangkan waktu untuk relaksasi setiap hari</p>
+                            </div>
+                            <div class="tk_rek_card">
+                                <span class="tk_rek_icon">📓</span>
+                                <p>Tulis jurnal perasaanmu secara rutin</p>
+                            </div>
+                            <div class="tk_rek_card">
+                                <span class="tk_rek_icon">🏃</span>
+                                <p>Olahraga ringan minimal 30 menit sehari</p>
+                            </div>
+                        </div>
+                    </t>
+
+                    <t t-elif="is_sedang">
+                        <div class="tk_rek_grid">
+                            <div class="tk_rek_card">
+                                <span class="tk_rek_icon">💬</span>
+                                <p>Cerita ke orang yang kamu percaya</p>
+                            </div>
+                            <div class="tk_rek_card">
+                                <span class="tk_rek_icon">🌬️</span>
+                                <p>Coba teknik pernapasan dalam saat cemas</p>
+                            </div>
+                            <div class="tk_rek_card">
+                                <span class="tk_rek_icon">😴</span>
+                                <p>Pastikan tidur cukup 7–8 jam sehari</p>
+                            </div>
+                        </div>
+                    </t>
+
+                    <t t-else="">
+                        <div class="tk_rek_konseling">
+                            <p>Berdasarkan hasil assessmentmu, kami menyarankan kamu untuk berbicara dengan konselor. Kamu bisa membuat janji konseling melalui platform ini.</p>
+                            <a href="/konseling" class="tk_btn_konseling">Buat Janji Konseling</a>
+                        </div>
+                    </t>
+
+                </div>
+
+                <!-- Tombol aksi -->
+                <div class="tk_result_actions">
+                    <a href="/" class="tk_btn_home">Kembali ke Dashboard</a>
+                    <a t-att-href="'/assessment/retry/' + survey.access_token" class="tk_btn_retake">
+                        Coba Lagi
+                    </a>
+                </div>
+
+            </div>
+        </xpath>
+
+    </template>
+  </data>
+</odoo>
