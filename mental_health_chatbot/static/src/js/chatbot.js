@@ -25,7 +25,136 @@
         }
 
         console.log('mental_health_chatbot: JS assets loaded');
-        
+
+        let currentSessionId = 'sess_' + Date.now() + '_'
+            + Math.random().toString(36).substr(2, 9);
+
+        function getCsrfToken() {
+            if (typeof odoo !== 'undefined' && odoo.csrf_token) {
+                return odoo.csrf_token;
+            }
+            const meta = document.querySelector('meta[name="csrf-token"]');
+            return meta ? meta.getAttribute('content') : '';
+        }
+
+        function jsonRpc(url, params) {
+            const headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            };
+            const csrf = getCsrfToken();
+            if (csrf) {
+                headers['X-CSRF-TOKEN'] = csrf;
+            }
+            return fetch(url, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({
+                    jsonrpc: '2.0',
+                    method: 'call',
+                    params: params || {},
+                    id: Date.now(),
+                }),
+            }).then(function (response) {
+                if (!response.ok) {
+                    throw new Error('HTTP status ' + response.status);
+                }
+                return response.json();
+            }).then(function (data) {
+                if (data.error) {
+                    throw new Error(data.error.data?.message || data.error.message || 'RPC error');
+                }
+                return data.result;
+            });
+        }
+
+        function escapeHtml(text) {
+            return $('<div>').text(text || '').html();
+        }
+
+        const MHC_WELCOME_TEXT =
+            'Halo! Saya adalah TiKo AI dari Titik koma. Saya di sini siap mendengarkan cerita dan perasaanmu hari ini.';
+        const MHC_BOT_AVATAR_HTML =
+            '<div class="mhc-avatar mhc-avatar-bot" role="img" aria-label="TiKo AI"></div>';
+
+        function getUserAvatarLabel() {
+            const name = localStorage.getItem('chatbot_user_name')
+                || $root.find('#top-username').text().trim()
+                || 'U';
+            const parts = name.trim().split(/\s+/).filter(Boolean);
+            if (parts.length >= 2) {
+                return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+            }
+            return (parts[0] && parts[0][0] ? parts[0][0] : 'U').toUpperCase();
+        }
+
+        function buildWelcomeMessageHtml() {
+            return buildMessageHtml('bot', MHC_WELCOME_TEXT, null).replace(
+                'class="mhc-message mhc-message-bot"',
+                'class="mhc-message mhc-message-bot" data-mhc-welcome="1"'
+            );
+        }
+
+        function ensureWelcomeMessage($container) {
+            if (!$container || !$container.length) {
+                return;
+            }
+            if ($container.find('[data-mhc-welcome]').length === 0) {
+                $container.prepend(buildWelcomeMessageHtml());
+            }
+        }
+
+        function buildMessageHtml(role, text, time) {
+            const isBot = role === 'bot';
+            const safeText = escapeHtml(text);
+            const timeHtml = time
+                ? '<span class="mhc-time">' + escapeHtml(time) + '</span>'
+                : '';
+            const avatarHtml = isBot
+                ? MHC_BOT_AVATAR_HTML
+                : '<div class="mhc-avatar mhc-avatar-user">'
+                    + escapeHtml(getUserAvatarLabel()) + '</div>';
+            const bubbleHtml =
+                '<div class="mhc-bubble mhc-bubble-' + role + '">'
+                + safeText + timeHtml + '</div>';
+            const inner = isBot
+                ? avatarHtml + bubbleHtml
+                : bubbleHtml + avatarHtml;
+            return '<div class="mhc-message mhc-message-' + role + '">' + inner + '</div>';
+        }
+
+        function buildTypingHtml() {
+            return ''
+                + '<div class="mhc-message mhc-message-bot typing-indicator-wrapper">'
+                + MHC_BOT_AVATAR_HTML
+                + '<div class="mhc-bubble mhc-bubble-bot">'
+                + '<div class="typing-indicator">'
+                + '<div class="typing-dot"></div>'
+                + '<div class="typing-dot"></div>'
+                + '<div class="typing-dot"></div>'
+                + '</div></div></div>';
+        }
+
+        function migrateLegacyChatMessages($container) {
+            if (!$container || !$container.length) {
+                return;
+            }
+            $container.find('.user-message-row, .bot-message-row').each(function () {
+                const $row = $(this);
+                if ($row.hasClass('mhc-message-bot') || $row.hasClass('mhc-message-user')) {
+                    return;
+                }
+                const isBot = $row.hasClass('bot-message-row');
+                const $bubble = $row.find('.message-bubble-bot, .message-bubble-user');
+                const $time = $bubble.find('.mhc-message-time, .mhc-time');
+                const time = $time.length ? $time.text().trim() : '';
+                const text = $bubble.clone().children('.mhc-message-time, .mhc-time').remove().end()
+                    .text().trim();
+                $row.replaceWith(buildMessageHtml(isBot ? 'bot' : 'user', text, time || null));
+            });
+        }
+
         // --- 1. Original Widget Code (Preserved) ---
         // Widget send (delegated and scoped to root)
         $root.on('click', '#send-btn', function () {
@@ -47,7 +176,10 @@
                     'Accept': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: JSON.stringify({ message: message })
+                body: JSON.stringify({
+                    message: message,
+                    session_id: currentSessionId,
+                })
             }).then(function (response) {
                 if (!response.ok) {
                     throw new Error('HTTP status ' + response.status);
@@ -176,42 +308,14 @@
         chatbotNamespace.openDashboardTab = switchTab;
 
         // --- Chat Overlay ---
-        function appendMessageTo($logContainer, sender, text) {
-            if (sender === 'user') {
-                $logContainer.append(`
-                    <div class="mhc-message user-message-row">
-                        <div class="message-bubble-user">
-                            ${text}
-                        </div>
-                        <div class="user-avatar-circle"></div>
-                    </div>
-                `);
-            } else {
-                $logContainer.append(`
-                    <div class="mhc-message bot-message-row">
-                        <div class="bot-avatar-circle"></div>
-                        <div class="message-bubble-bot">
-                            ${text}
-                        </div>
-                    </div>
-                `);
-            }
+        function appendMessageTo($logContainer, sender, text, time) {
+            const role = sender === 'user' ? 'user' : 'bot';
+            $logContainer.append(buildMessageHtml(role, text, time));
             $logContainer.scrollTop($logContainer[0].scrollHeight);
         }
 
         function showTypingIndicatorTo($logContainer) {
-            $logContainer.append(`
-                <div class="mhc-message bot-message-row typing-indicator-wrapper">
-                    <div class="bot-avatar-circle"></div>
-                    <div class="message-bubble-bot">
-                        <div class="typing-indicator">
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                        </div>
-                    </div>
-                </div>
-            `);
+            $logContainer.append(buildTypingHtml());
             $logContainer.scrollTop($logContainer[0].scrollHeight);
         }
 
@@ -245,7 +349,10 @@
                     'Accept': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: JSON.stringify({ message: message })
+                body: JSON.stringify({
+                    message: message,
+                    session_id: currentSessionId,
+                })
             }).then(function (response) {
                 if (!response.ok) {
                     throw new Error('HTTP status ' + response.status);
@@ -348,42 +455,19 @@
         const $chatInput = $root.find('#chat-dashboard-input');
         const $chatSend = $root.find('#chat-dashboard-send');
 
-        function appendMessage(sender, text) {
-            if (sender === 'user') {
-                $chatLog.append(`
-                    <div class="mhc-message user-message-row">
-                        <div class="message-bubble-user">
-                            ${text}
-                        </div>
-                        <div class="user-avatar-circle"></div>
-                    </div>
-                `);
-            } else {
-                $chatLog.append(`
-                    <div class="mhc-message bot-message-row">
-                        <div class="bot-avatar-circle"></div>
-                        <div class="message-bubble-bot">
-                            ${text}
-                        </div>
-                    </div>
-                `);
-            }
+        migrateLegacyChatMessages($chatLog);
+        migrateLegacyChatMessages($root.find('#chat-conversation-log-overlay'));
+        ensureWelcomeMessage($chatLog);
+        ensureWelcomeMessage($root.find('#chat-conversation-log-overlay'));
+
+        function appendMessage(sender, text, time) {
+            const role = sender === 'user' ? 'user' : 'bot';
+            $chatLog.append(buildMessageHtml(role, text, time));
             $chatLog.scrollTop($chatLog[0].scrollHeight);
         }
 
         function showTypingIndicator() {
-            $chatLog.append(`
-                <div class="mhc-message bot-message-row typing-indicator-wrapper">
-                    <div class="bot-avatar-circle"></div>
-                    <div class="message-bubble-bot">
-                        <div class="typing-indicator">
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                        </div>
-                    </div>
-                </div>
-            `);
+            $chatLog.append(buildTypingHtml());
             $chatLog.scrollTop($chatLog[0].scrollHeight);
         }
 
@@ -406,7 +490,10 @@
                     'Accept': 'application/json',
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: JSON.stringify({ message: message })
+                body: JSON.stringify({
+                    message: message,
+                    session_id: currentSessionId,
+                })
             }).then(function (response) {
                 if (!response.ok) {
                     throw new Error('HTTP status ' + response.status);
@@ -434,6 +521,123 @@
             const msg = $(this).data('msg');
             $chatInput.val(msg);
             sendMessage();
+        });
+
+        // --- 4b. Conversation history panel ---
+        function renderSessionList(sessions) {
+            const container = document.getElementById('mhc-session-list');
+            if (!container) {
+                return;
+            }
+
+            if (!sessions || sessions.length === 0) {
+                container.innerHTML =
+                    '<div class="mhc-session-empty">' +
+                    '💬 Belum ada riwayat percakapan' +
+                    '</div>';
+                return;
+            }
+
+            const grouped = {};
+            sessions.forEach(function (s) {
+                const d = s.date;
+                if (!grouped[d]) {
+                    grouped[d] = [];
+                }
+                grouped[d].push(s);
+            });
+
+            let html = '';
+            Object.keys(grouped).forEach(function (date) {
+                html += '<div class="mhc-session-date-label">' + escapeHtml(date) + '</div>';
+                grouped[date].forEach(function (s) {
+                    html += '<div class="mhc-session-item" data-session="'
+                        + escapeHtml(s.session_id) + '">'
+                        + '<span class="mhc-session-icon">💬</span>'
+                        + '<span class="mhc-session-preview">'
+                        + escapeHtml(s.preview) + '</span>'
+                        + '</div>';
+                });
+            });
+            container.innerHTML = html;
+
+            container.querySelectorAll('.mhc-session-item').forEach(function (el) {
+                el.addEventListener('click', function () {
+                    const sid = this.dataset.session;
+                    loadSessionMessages(sid);
+                    container.querySelectorAll('.mhc-session-item')
+                        .forEach(function (e) { e.classList.remove('active'); });
+                    this.classList.add('active');
+                    toggleHistoryPanel(false);
+                });
+            });
+        }
+
+        function loadChatSessions() {
+            return jsonRpc('/mental/chatbot/sessions', {}).then(function (sessions) {
+                renderSessionList(sessions || []);
+            }).catch(function (error) {
+                console.error('mental_health_chatbot: load sessions error', error);
+                renderSessionList([]);
+            });
+        }
+
+        function loadSessionMessages(sessionId) {
+            return jsonRpc('/mental/chatbot/session/messages', {
+                session_id: sessionId,
+            }).then(function (messages) {
+                currentSessionId = sessionId;
+
+                const chatBody = document.getElementById('chat-conversation-log');
+                if (!chatBody) {
+                    return;
+                }
+                chatBody.innerHTML = '';
+                chatBody.insertAdjacentHTML('afterbegin', buildWelcomeMessageHtml());
+
+                (messages || []).forEach(function (m) {
+                    appendMessage('user', m.user_message, m.time);
+                    appendMessage('bot', m.bot_response, m.time);
+                });
+
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }).catch(function (error) {
+                console.error('mental_health_chatbot: load session messages error', error);
+            });
+        }
+
+        function toggleHistoryPanel(forceState) {
+            const panel = document.getElementById('mhc-history-panel');
+            const btn = document.getElementById('mhc-history-toggle');
+            if (!panel) {
+                return;
+            }
+
+            const isOpen = panel.classList.contains('open');
+            const shouldOpen = forceState !== undefined ? forceState : !isOpen;
+
+            if (shouldOpen) {
+                panel.classList.add('open');
+                if (btn) {
+                    btn.classList.add('active');
+                }
+                loadChatSessions();
+            } else {
+                panel.classList.remove('open');
+                if (btn) {
+                    btn.classList.remove('active');
+                }
+            }
+        }
+
+        window.toggleHistoryPanel = toggleHistoryPanel;
+        chatbotNamespace.toggleHistoryPanel = toggleHistoryPanel;
+
+        $root.on('click', '#mhc-history-toggle', function () {
+            toggleHistoryPanel();
+        });
+        $root.on('click', '#mhc-history-close', function () {
+            toggleHistoryPanel(false);
         });
 
 

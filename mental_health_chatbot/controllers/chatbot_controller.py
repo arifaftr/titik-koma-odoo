@@ -2,8 +2,19 @@ import json
 import requests
 from odoo import http
 from odoo.http import request
+from odoo.addons.titikkoma.controllers.main import _is_assessment_done
+
 
 class MentalHealthChatbot(http.Controller):
+
+    def _save_chat_history(self, user_message, bot_response, session_id=None):
+        user = request.env.user
+        request.env['chatbot.history'].sudo().create({
+            'user_message': user_message,
+            'bot_response': bot_response,
+            'session_id': session_id,
+            'user_id': user.id,
+        })
 
     @http.route('/chatbot', type='http', auth='public', website=True)
     def chatbot_dashboard(self, **kw):
@@ -13,6 +24,7 @@ class MentalHealthChatbot(http.Controller):
         values = {
             'user_name': 'Arifa Fitra Salima' if is_public else user.name,
             'is_public': is_public,
+            'assessment_done': _is_assessment_done(),
         }
         return request.render('mental_health_chatbot.chatbot_dashboard', values)
 
@@ -25,10 +37,14 @@ class MentalHealthChatbot(http.Controller):
             body_json = {}
 
         message = None
+        session_id = None
         if isinstance(body_json, dict):
             message = body_json.get('message')
+            session_id = body_json.get('session_id')
         if not message:
             message = kw.get('message')
+        if not session_id:
+            session_id = kw.get('session_id')
 
         if not message:
             response = request.make_response(json.dumps({'reply': 'Pesan kosong.'}))
@@ -65,11 +81,7 @@ class MentalHealthChatbot(http.Controller):
             else:
                 reply = "Terima kasih sudah percaya share perasaan atau masalahmu dengan aku. Aku siap mendengarkan. Bisa cerita lebih detail tentang apa yang sedang kamu rasakan atau hadapi? Aku akan coba bantu sebaik mungkin."
             
-            # Save fallback message to history as well
-            request.env['chatbot.history'].sudo().create({
-                'user_message': message,
-                'bot_response': reply,
-            })
+            self._save_chat_history(message, reply, session_id=session_id)
             
             response = request.make_response(json.dumps({'reply': reply}))
             response.headers['Content-Type'] = 'application/json'
@@ -160,12 +172,52 @@ Balas dengan respons yang LANGSUNG, EMPATI, dan PRAKTIS. Fokus pada pertanyaanny
         except Exception as e:
             reply = f"Gagal menghubungi server AI: {str(e)}"
 
-        # Save to history
-        request.env['chatbot.history'].sudo().create({
-            'user_message': message,
-            'bot_response': reply,
-        })
+        self._save_chat_history(message, reply, session_id=session_id)
 
         response = request.make_response(json.dumps({'reply': reply}))
         response.headers['Content-Type'] = 'application/json'
         return response
+
+    @http.route('/mental/chatbot/sessions', auth='user', type='json',
+                methods=['POST'], website=True)
+    def get_sessions(self, **kw):
+        histories = request.env['chatbot.history'].sudo().search([
+            ('user_id', '=', request.env.user.id),
+            ('session_id', '!=', False),
+        ], order='create_date desc')
+
+        sessions = {}
+        for history in histories:
+            sid = history.session_id
+            if sid and sid not in sessions:
+                preview = history.user_message or ''
+                if len(preview) > 50:
+                    preview = preview[:50] + '...'
+                sessions[sid] = {
+                    'session_id': sid,
+                    'preview': preview or '(Tanpa pesan)',
+                    'date': history.create_date.strftime('%d %B %Y'),
+                    'date_raw': str(history.create_date),
+                }
+
+        return list(sessions.values())
+
+    @http.route('/mental/chatbot/session/messages', auth='user', type='json',
+                methods=['POST'], website=True)
+    def get_session_messages(self, session_id=None, **kw):
+        if not session_id:
+            return []
+
+        messages = request.env['chatbot.history'].sudo().search([
+            ('user_id', '=', request.env.user.id),
+            ('session_id', '=', session_id),
+        ], order='create_date asc')
+
+        result = []
+        for message in messages:
+            result.append({
+                'user_message': message.user_message,
+                'bot_response': message.bot_response,
+                'time': message.create_date.strftime('%H:%M'),
+            })
+        return result

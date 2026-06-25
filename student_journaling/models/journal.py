@@ -35,9 +35,6 @@ class StudentJournal(models.Model):
         ('red', 'Red')
     ], string='Tema Warna', default='teal')
     
-    # Foto Jurnal
-    image = fields.Binary(string='Foto Jurnal')
-
     def name_get(self):
         result = []
         for record in self:
@@ -45,6 +42,3 @@ class StudentJournal(models.Model):
             result.append((record.id, name))
         return result
 
-    def action_upload_img(self):
-        # Placeholder untuk fungsi upload gambar di masa depan
-        return True

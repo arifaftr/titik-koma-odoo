@@ -3,7 +3,7 @@
     'version': '1.0',
     'summary': 'Modul untuk mencatat jurnal harian mahasiswa',
     'category': 'Education',
-    'depends': ['base', 'student_mood_tracking', 'website'],
+    'depends': ['base', 'student_mood_tracking', 'website', 'titikkoma'],
     'data': [
         'security/ir.model.access.csv',
         'views/journal_views.xml',

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="template_history" name="Assessment History">
+        <t t-call="website.layout">
+            <link rel="stylesheet" href="/titikkoma/static/src/css/titikkoma.css"/>
+
+            <div class="dashboard assessment-history-page">
+                <t t-call="titikkoma.shared_sidebar">
+                    <t t-set="active_menu" t-value="'assessment'"/>
+                    <t t-set="assessment_done" t-value="assessment_done"/>
+                </t>
+
+                <main class="main-content assessment-history-main">
+                    <div class="assessment-history-wrap">
+                        <div class="assessment-history-header">
+                            <div class="assessment-history-header-left">
+                                <a href="/assessment" class="assessment-history-back">← Kembali</a>
+                            </div>
+
+                            <div class="assessment-history-header-center">
+                                <h1>Riwayat Assessment</h1>
+                                <p>Pantau perkembangan kesehatan mentalmu</p>
+                            </div>
+
+                            <div class="assessment-history-header-right">
+                                <a href="/assessment" class="assessment-history-start">Kerjakan Lagi →</a>
+                            </div>
+                        </div>
+
+                        <t t-if="not history">
+                            <div class="history-empty-state">
+                                <div class="history-empty-emoji">📋</div>
+                                <h2>Belum ada riwayat assessment</h2>
+                                <p>Kerjakan assessment pertama untuk melihat hasilmu di sini</p>
+                                <a href="/assessment" class="history-empty-btn">Mulai Assessment Pertamamu</a>
+                            </div>
+                        </t>
+
+                        <t t-if="history">
+                            <div class="history-grid">
+                                <t t-foreach="history" t-as="card">
+                                    <div class="history-card" t-attf-style="border-left-color: #{card['kategori']['color']}">
+                                        <div class="history-card-date">
+                                            📅 <t t-esc="card['tanggal']"/>
+                                        </div>
+
+                                        <div class="history-card-score">
+                                            <t t-esc="card['skor']"/>
+                                        </div>
+                                        <div class="history-card-score-label">Skor Kamu</div>
+
+                                        <div class="history-progress-bar">
+                                            <div class="history-progress-fill"
+                                                t-attf-style="width: #{card['skor']}%; background: #{card['kategori']['color']}"/>
+                                        </div>
+                                        <div class="history-progress-meta">
+                                            <div class="history-badge"
+                                                t-attf-style="background: #{card['kategori']['color']}; color: white;">
+                                                <t t-esc="card['kategori']['emoji']"/> <t t-esc="card['kategori']['tingkat']"/>
+                                            </div>
+                                            <div class="history-progress-value">
+                                                <t t-esc="card['skor']"/>%
+                                            </div>
+                                        </div>
+                                        <div class="history-badge-sublabel">
+                                            <t t-esc="card['kategori']['label']"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </main>
+            </div>
+        </t>
+    </template>
+</odoo>

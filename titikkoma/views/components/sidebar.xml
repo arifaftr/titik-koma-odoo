@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="shared_sidebar" name="Shared Sidebar">
+        <aside class="sidebar" id="sidebar">
+
+            <img src="/titikkoma/static/src/img/titikkomalogo1.png" alt="Titik Koma" class="logo"/>
+
+            <nav class="menu" style="margin-top: 30px;">
+
+                <div class="menu-title">Menu Utama</div>
+
+                <a href="/" t-attf-class="menu-item #{active_menu == 'beranda' and 'active' or ''}">
+                    <span class="icon">🏠</span>
+                    <span>Beranda</span>
+                </a>
+
+                <a href="/assessment/retry/4591d5f4-b6f7-4991-aab7-9fdae2847b7e" t-attf-class="menu-item #{active_menu == 'assessment' and 'active' or ''}">
+                    <span class="icon">📋</span>
+                    <span>Self Assessment</span>
+                </a>
+
+                <a href="/mood-tracker" t-attf-class="menu-item #{active_menu == 'moodtracker' and 'active' or ''} #{not assessment_done and 'disabled' or ''}">
+                    <span class="icon">📊</span>
+                    <span>Mood Tracker</span>
+                    <span t-if="not assessment_done" class="lock-icon">🔒</span>
+                </a>
+
+                <div class="menu-title" style="margin-top: 30px;">Dukungan</div>
+
+                <a href="/self-help-tools" t-attf-class="menu-item #{(active_menu == 'selfhelp' or active_menu == 'jurnaling') and 'active' or ''} #{not assessment_done and 'disabled' or ''}">
+                    <span class="icon">📚</span>
+                    <span>Self-Help Tools</span>
+                    <span t-if="not assessment_done" class="lock-icon">🔒</span>
+                </a>
+
+                <a href="/chatbot" t-attf-class="menu-item #{active_menu == 'chatbot' and 'active' or ''} #{not assessment_done and 'disabled' or ''}">
+                    <span class="icon">🤖</span>
+                    <span>Chatbot AI</span>
+                    <span t-if="not assessment_done" class="lock-icon">🔒</span>
+                </a>
+
+                <a href="/konseling" t-attf-class="menu-item #{active_menu == 'konseling' and 'active' or ''} #{not assessment_done and 'disabled' or ''}">
+                    <span class="icon">💬</span>
+                    <span>Konseling</span>
+                    <span t-if="not assessment_done" class="lock-icon">🔒</span>
+                </a>
+
+                <t t-if="active_menu == 'assessment' and not assessment_done">
+                    <div class="assessment-note">Selesaikan assessment untuk membuka fitur ini</div>
+                </t>
+
+            </nav>
+
+            <a href="/web/session/logout" class="menu-item logout-btn">
+                <span class="icon">⏻</span>
+                <span>Logout</span>
+            </a>
+
+        </aside>
+    </template>
+
+</odoo>

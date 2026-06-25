@@ -7,55 +7,9 @@
 
             <div class="dashboard">
 
-                <!-- SIDEBAR NAVIGATION -->
-                <aside class="sidebar" id="sidebar">
-
-                    <img src="/titikkoma/static/src/img/titikkomalogo1.png" alt="Titik Koma" class="logo"/>
-
-                    <nav class="menu" style="margin-top: 30px;">
-
-                        <div class="menu-title">Menu Utama</div>
-
-                        <a href="/" class="menu-item">
-                            <span class="icon">🏠</span>
-                            <span>Beranda</span>
-                        </a>
-
-                        <a href="/assessment/retry/4591d5f4-b6f7-4991-aab7-9fdae2847b7e" class="menu-item">
-                            <span class="icon">📋</span>
-                            <span>Self Assessment</span>
-                        </a>
-
-                        <a href="/mood-tracker" class="menu-item">
-                            <span class="icon">📊</span>
-                            <span>Mood Tracker</span>
-                        </a>
-
-                        <div class="menu-title" style="margin-top: 30px;">Dukungan</div>
-
-                        <a href="/self-help-tools" class="menu-item active">
-                            <span class="icon">📚</span>
-                            <span>Self-Help Tools</span>
-                        </a>
-
-                        <a href="/chatbot" class="menu-item">
-                            <span class="icon">🤖</span>
-                            <span>Chatbot AI</span>
-                        </a>
-
-                        <a href="/konseling" class="menu-item">
-                            <span class="icon">💬</span>
-                            <span>Konseling</span>
-                        </a>
-
-                    </nav>
-
-                    <a href="/web/session/logout" class="menu-item logout-btn">
-                        <span class="icon">⏻</span>
-                        <span>Logout</span>
-                    </a>
-
-                </aside>
+                <t t-call="titikkoma.shared_sidebar">
+                    <t t-set="active_menu" t-value="'selfhelp'"/>
+                </t>
 
                 <!-- MAIN CONTENT -->
                 <main class="main-content" id="mainContent">
@@ -65,12 +19,6 @@
                         <div class="welcome">
                             <h1>Self-Help Tools</h1>
                             <p>Latihan ringan untuk menenangkan pikiran.</p>
-                        </div>
-                        <div class="profile-mini">
-                            <img src="/titikkoma/static/src/img/patrick.jpg"/>
-                            <div>
-                                <h4><t t-esc="user.name"/></h4>
-                            </div>
                         </div>
                     </div>
 

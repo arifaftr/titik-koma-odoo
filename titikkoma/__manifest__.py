@@ -19,6 +19,7 @@
     'author': 'Kelompok 2',
     'depends': ['base', 'website', 'survey', 'website_livechat'],
     'data': [
+        'views/components/sidebar.xml',
         'views/website_override.xml',
         'views/selfhelp_tools.xml',
     ],

@@ -4,55 +4,9 @@
         <t t-call="website.layout">
             <div class="dashboard">
 
-                 <!-- SIDEBAR NAVIGATION -->
-                <aside class="sidebar" id="sidebar">
-
-                    <img src="/titikkoma/static/src/img/titikkomalogo1.png" alt="Titik Koma" class="logo"/>
-
-                    <nav class="menu" style="margin-top: 30px;">
-
-                        <div class="menu-title">Menu Utama</div>
-
-                        <a href="/" class="menu-item">
-                            <span class="icon">🏠</span>
-                            <span>Beranda</span>
-                        </a>
-
-                        <a href="/assessment/retry/4591d5f4-b6f7-4991-aab7-9fdae2847b7e" class="menu-item">
-                            <span class="icon">📋</span>
-                            <span>Self Assessment</span>
-                        </a>
-
-                        <a href="/mood-tracker" class="menu-item">
-                            <span class="icon">📊</span>
-                            <span>Mood Tracker</span>
-                        </a>
-
-                        <div class="menu-title" style="margin-top: 30px;">Dukungan</div>
-
-                        <a href="/self-help-tools" class="menu-item">
-                            <span class="icon">📚</span>
-                            <span>Self-Help Tools</span>
-                        </a>
-
-                        <a href="/chatbot" class="menu-item">
-                            <span class="icon">🤖</span>
-                            <span>Chatbot AI</span>
-                        </a>
-
-                        <a href="/konseling" class="menu-item active">
-                            <span class="icon">💬</span>
-                            <span>Konseling</span>
-                        </a>
-
-                    </nav>
-
-                    <a href="/web/session/logout" class="menu-item logout-btn">
-                        <span class="icon">⏻</span>
-                        <span>Logout</span>
-                    </a>
-
-                </aside>
+                <t t-call="titikkoma.shared_sidebar">
+                    <t t-set="active_menu" t-value="'konseling'"/>
+                </t>
 
                 <!-- Main Content -->
                 <div class="main-content" id="mainContent">
@@ -116,7 +70,7 @@
                                         <p class="ksl-exp" t-attf-style="--ksl-tag-bg: #{ksl_tag_theme['bg']}; --ksl-tag-fg: #{ksl_tag_theme['fg']}; --ksl-tag-border: #{ksl_tag_theme['border']};" t-esc="k.spesialisasi or 'Konselor'"/>
                                         <p class="ksl-desc" t-esc="k.deskripsi"/>
                                     </div>
-                                    <a t-attf-href="https://wa.me/#{k.nomor_wa}" target="_blank" class="ksl-wa-btn">
+                                    <a t-att-href="k.get_whatsapp_url(user)" target="_blank" rel="noopener noreferrer" class="ksl-wa-btn">
                                         <i class="fa fa-whatsapp"/>
                                         Chat via WhatsApp
                                     </a>

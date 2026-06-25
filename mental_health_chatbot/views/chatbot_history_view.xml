@@ -7,6 +7,8 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="create_date"/>
+                <field name="session_id"/>
+                <field name="user_id"/>
                 <field name="user_message"/>
                 <field name="bot_response"/>
             </tree>

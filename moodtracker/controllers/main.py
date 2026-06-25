@@ -1,6 +1,7 @@
 from odoo import http
 from odoo.http import request
 from datetime import date, timedelta
+from odoo.addons.titikkoma.controllers.main import _is_assessment_done
 
 class MoodTrackerController(http.Controller):
 
@@ -60,6 +61,7 @@ class MoodTrackerController(http.Controller):
             'mood_label': mood_label,
             'mood_counts': mood_counts,
             'today': today,
+            'assessment_done': _is_assessment_done(),
         })
 
     @http.route('/mood-tracker/simpan', type='http', auth='user', methods=['POST'], website=True, csrf=True)

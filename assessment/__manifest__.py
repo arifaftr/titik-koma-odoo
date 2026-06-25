@@ -3,6 +3,7 @@
   'depends': ['website', 'survey', 'titikkoma'],
   'data': [
     'views/survey_custom.xml',
+    'views/history_template.xml',
   ],
   'assets': {
     'web.assets_frontend': [

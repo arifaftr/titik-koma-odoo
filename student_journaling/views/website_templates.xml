@@ -22,22 +22,6 @@
                         width: 100%;
                     }
 
-                    .sidebar {
-                        width: 280px;
-                        position: fixed;
-                        height: 100vh;
-                        left: 0;
-                        top: 0;
-                        background: #ffffff;
-                        z-index: 1000;
-                        display: flex;
-                        flex-direction: column;
-                        overflow-y: auto;
-                        overflow-x: hidden;
-                        border-right: 1px solid rgba(203, 213, 225, 0.8);
-                        box-shadow: 10px 0 30px rgba(108, 92, 231, 0.05);
-                    }
-
                     .journal-main-content {
                         margin-left: 280px;
                         width: calc(100% - 280px);
@@ -70,125 +54,6 @@
                     }
 
                     .website-journal-wrapper { min-height: 100vh; width: 100%; overflow: visible; }
-
-                    /* Sidebar Navigation */
-                    .sidebar {
-                        width: 280px;
-                        background: #ffffff;
-                        color: #2D3436;
-                        padding: 32px 20px;
-                        position: fixed;
-                        height: 100vh;
-                        left: 0;
-                        top: 0;
-                        overflow-y: auto;
-                        overflow-x: hidden;
-                        z-index: 1000;
-                        border-right: 1px solid rgba(203, 213, 225, 0.8);
-                        box-shadow: 10px 0 30px rgba(108, 92, 231, 0.05);
-                        display: flex;
-                        flex-direction: column;
-                    }
-
-                    .sidebar .logout-btn {
-                        margin-top: auto;
-                        display: flex;
-                        align-items: center;
-                        gap: 12px;
-                        padding: 14px 16px;
-                        border-radius: 12px;
-                        color: #ef4444;
-                        background: rgba(239, 68, 68, 0.08);
-                        border: 1px solid rgba(239, 68, 68, 0.15);
-                        text-decoration: none;
-                        font-weight: 600;
-                        transition: all 0.2s ease;
-                    }
-
-                    .sidebar .logout-btn:hover {
-                        background: rgba(239, 68, 68, 0.14);
-                    }
-
-                    .sidebar .logout-btn .icon {
-                        font-size: 18px;
-                        min-width: 20px;
-                        text-align: center;
-                    }
-
-                    .sidebar::-webkit-scrollbar {
-                        width: 6px;
-                    }
-
-                    .sidebar::-webkit-scrollbar-track {
-                        background: transparent;
-                    }
-
-                    .sidebar::-webkit-scrollbar-thumb {
-                        background: #cbd5e1;
-                        border-radius: 3px;
-                    }
-
-                    .sidebar::-webkit-scrollbar-thumb:hover {
-                        background: #94a3b8;
-                    }
-
-                    .logo {
-                        width: 64px;
-                        height: auto;
-                        display: block;
-                        margin: 0 auto 24px;
-                        border-radius: 6px;
-                    }
-
-                    .menu {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 8px;
-                    }
-
-                    .menu-title {
-                        font-size: 12px;
-                        font-weight: 700;
-                        letter-spacing: 0.04em;
-                        color: #94a3b8;
-                        text-transform: uppercase;
-                        margin: 0 0 8px 0;
-                        padding: 0 6px;
-                    }
-
-                    .menu-item {
-                        display: flex;
-                        align-items: center;
-                        gap: 12px;
-                        padding: 14px 16px;
-                        border-radius: 12px;
-                        color: #636E72 !important;
-                        text-decoration: none !important;
-                        font-weight: 600;
-                        transition: all 0.2s ease;
-                    }
-
-                    .menu-item:hover {
-                        color: #7D6BFF !important;
-                        background: rgba(125, 107, 255, 0.05);
-                    }
-
-                    .menu-item.active {
-                        background: #7D6BFF !important;
-                        color: #FFFFFF !important;
-                        box-shadow: 0 8px 20px rgba(125, 107, 255, 0.3);
-                    }
-
-                    .menu-item.active .icon {
-                        filter: brightness(0) invert(1);
-                    }
-
-                    .menu-item .icon {
-                        width: 22px;
-                        min-width: 22px;
-                        text-align: center;
-                        font-size: 18px;
-                    }
 
                     /* Area Konten Utama */
                     .journal-main-content {
@@ -390,50 +255,7 @@
 
     <!-- Sidebar Reusable (Mirip 100% Gambar) -->
     <template id="journal_sidebar_content" name="Journal Sidebar Content">
-        <aside class="sidebar" id="sidebar">
-            <img src="/titikkoma/static/src/img/titikkomalogo1.png" alt="Titik Koma" class="logo"/>
-
-            <nav class="menu" style="margin-top: 30px;">
-                <div class="menu-title">Menu Utama</div>
-
-                <a href="/" t-attf-class="menu-item #{'active' if active_menu == 'home' else ''}">
-                    <span class="icon">🏠</span>
-                    <span>Beranda</span>
-                </a>
-
-                <a href="/assessment/retry/4591d5f4-b6f7-4991-aab7-9fdae2847b7e" t-attf-class="menu-item #{'active' if active_menu == 'assessment' else ''}">
-                    <span class="icon">📋</span>
-                    <span>Self Assessment</span>
-                </a>
-
-                <a href="/mood-tracker" t-attf-class="menu-item #{'active' if active_menu == 'mood' else ''}">
-                    <span class="icon">📊</span>
-                    <span>Mood Tracker</span>
-                </a>
-
-                <div class="menu-title" style="margin-top: 30px;">Dukungan</div>
-
-                <a href="/journaling" t-attf-class="menu-item #{'active' if active_menu == 'tools' else ''}">
-                    <span class="icon">📚</span>
-                    <span>Self-Help Tools</span>
-                </a>
-
-                <a href="#" class="menu-item">
-                    <span class="icon">🤖</span>
-                    <span>Chatbot AI</span>
-                </a>
-
-                <a href="/konseling" class="menu-item">
-                    <span class="icon">💬</span>
-                    <span>Konseling</span>
-                </a>
-            </nav>
-
-            <a href="#" class="menu-item logout-btn">
-                <span class="icon">⏻</span>
-                <span>Logout</span>
-            </a>
-        </aside>
+        <t t-call="titikkoma.shared_sidebar"/>
     </template>
 
     <!-- Halaman Daftar Jurnal -->
@@ -441,7 +263,7 @@
         <t t-call="student_journaling.journal_zen_layout">
             <div class="website-journal-wrapper">
                 <t t-call="student_journaling.journal_sidebar_content">
-                    <t t-set="active_menu" t-value="'tools'"/>
+                    <t t-set="active_menu" t-value="'jurnaling'"/>
                 </t>
                 <div class="journal-main-content" style="padding: 0;">
                     <!-- Top Purple Header -->
@@ -457,9 +279,6 @@
                             <a href="/journaling/new" class="btn-zen btn-primary-zen" style="width: 280px; justify-content: center;">
                                 <i class="fa fa-plus" style="font-size: 24px;"/> Jurnal Baru
                             </a>
-                            <button class="btn-zen btn-secondary-zen" style="width: 280px; justify-content: center;">
-                                <i class="fa fa-filter" style="font-size: 24px;"/> Filter
-                            </button>
                         </div>
 
                         <!-- Instruction Card -->
@@ -517,7 +336,7 @@
         <t t-call="student_journaling.journal_zen_layout">
             <div class="website-journal-wrapper">
                 <t t-call="student_journaling.journal_sidebar_content">
-                    <t t-set="active_menu" t-value="'tools'"/>
+                    <t t-set="active_menu" t-value="'jurnaling'"/>
                 </t>
                 <div class="journal-main-content" style="padding: 0;">
                     <div class="list-top-header">
@@ -528,7 +347,7 @@
                     </div>
 
                     <div class="writing-container">
-                        <form action="/journaling/save" method="post" enctype="multipart/form-data" class="writing-card theme-teal" id="writing_card" style="padding: 40px; transition: background 0.5s ease;">
+                        <form action="/journaling/save" method="post" class="writing-card theme-teal" id="writing_card" style="padding: 40px; transition: background 0.5s ease;">
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             
                             <!-- Zen Premium Control Bar -->
@@ -582,13 +401,7 @@
 
                             <!-- Footer Actions -->
                             <div class="card-footer-actions">
-                                <div>
-                                    <input type="file" name="image" id="image_upload" style="display: none;" accept="image/*"/>
-                                    <label for="image_upload" class="action-circle btn-upload-zen">
-                                        <i class="fa fa-camera"/>
-                                    </label>
-                                </div>
-                                <div style="display: flex; gap: 20px; align-items: center;">
+                                <div style="display: flex; gap: 20px; align-items: center; margin-left: auto;">
                                     <a href="/journaling/list" class="action-circle btn-delete-zen">
                                         <i class="fa fa-trash-o"/>
                                     </a>
@@ -632,7 +445,7 @@
         <t t-call="student_journaling.journal_zen_layout">
             <div class="website-journal-wrapper">
                 <t t-call="student_journaling.journal_sidebar_content">
-                    <t t-set="active_menu" t-value="'tools'"/>
+                    <t t-set="active_menu" t-value="'jurnaling'"/>
                 </t>
                 <div class="journal-main-content" style="padding: 0;">
                     <div t-attf-class="list-top-header theme-#{journal.color_theme or 'teal'}">
@@ -666,12 +479,6 @@
                                 <t t-esc="journal.content"/>
                             </div>
 
-                            <t t-if="journal.image">
-                                <div class="journal-image-display" style="margin-top: 30px; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                                    <img t-attf-src="data:image/png;base64,#{journal.image}" style="width: 100%; height: auto; max-height: 500px; object-fit: cover;"/>
-                                </div>
-                            </t>
-                            
                             <hr style="margin: 40px 0; border: none; border-top: 2px solid rgba(255,255,255,0.3);"/>
                             
                             <div style="display: flex; justify-content: flex-start;">

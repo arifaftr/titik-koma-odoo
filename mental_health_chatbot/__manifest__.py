@@ -1,9 +1,9 @@
 {
     'name': 'Mental Health Chatbot',
-    'version': '1.1',
+    'version': '1.2',
     'summary': 'Chatbot AI Gemini untuk kesehatan mental mahasiswa',
     'category': 'Website',
-    'depends': ['base', 'website', 'web'],
+    'depends': ['base', 'website', 'web', 'titikkoma'],
     'data': [
         'security/ir.model.access.csv',
         'data/chatbot_data.xml',

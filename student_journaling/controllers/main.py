@@ -1,6 +1,6 @@
 from odoo import http, fields
 from odoo.http import request
-import base64
+from odoo.addons.titikkoma.controllers.main import _is_assessment_done
 
 class StudentJournalWebsite(http.Controller):
 
@@ -9,6 +9,7 @@ class StudentJournalWebsite(http.Controller):
         journals = request.env['student.journal'].sudo().search([])
         return request.render("student_journaling.website_journal_list", {
             'journals': journals,
+            'assessment_done': _is_assessment_done(),
         })
 
     @http.route('/journaling/list', type='http', auth="public", website=True)
@@ -17,7 +18,9 @@ class StudentJournalWebsite(http.Controller):
 
     @http.route('/journaling/new', type='http', auth="public", website=True)
     def journal_new(self, **post):
-        return request.render("student_journaling.website_journal_form", {})
+        return request.render("student_journaling.website_journal_form", {
+            'assessment_done': _is_assessment_done(),
+        })
 
     @http.route('/journaling/save', type='http', auth="public", methods=['POST'], website=True, csrf=True)
     def journal_save(self, **post):
@@ -28,11 +31,7 @@ class StudentJournalWebsite(http.Controller):
             'content': post.get('content'),
             'date': fields.Date.today(),
         }
-        
-        if post.get('image'):
-            image_data = post.get('image').read()
-            vals['image'] = base64.b64encode(image_data)
-            
+
         request.env['student.journal'].sudo().create(vals)
         return request.redirect('/journaling/list')
 
@@ -40,6 +39,7 @@ class StudentJournalWebsite(http.Controller):
     def journal_detail(self, journal, **post):
         return request.render("student_journaling.website_journal_detail", {
             'journal': journal,
+            'assessment_done': _is_assessment_done(),
         })
 
     @http.route('/journaling/delete/<int:journal_id>', type='http', auth="public", website=True, csrf=False)

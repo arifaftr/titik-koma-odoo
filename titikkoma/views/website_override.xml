@@ -9,55 +9,9 @@
 
             <div class="dashboard">
 
-                <!-- SIDEBAR NAVIGATION -->
-                <aside class="sidebar" id="sidebar">
-
-                    <img src="/titikkoma/static/src/img/titikkomalogo1.png" alt="Titik Koma" class="logo"/>
-
-                    <nav class="menu" style="margin-top: 30px;">
-
-                        <div class="menu-title">Menu Utama</div>
-
-                        <a href="/" class="menu-item active">
-                            <span class="icon">🏠</span>
-                            <span>Beranda</span>
-                        </a>
-
-                        <a href="/assessment/retry/4591d5f4-b6f7-4991-aab7-9fdae2847b7e" class="menu-item">
-                            <span class="icon">📋</span>
-                            <span>Self Assessment</span>
-                        </a>
-
-                        <a href="/mood-tracker" class="menu-item">
-                            <span class="icon">📊</span>
-                            <span>Mood Tracker</span>
-                        </a>
-
-                        <div class="menu-title" style="margin-top: 30px;">Dukungan</div>
-
-                        <a href="/self-help-tools" class="menu-item">
-                            <span class="icon">📚</span>
-                            <span>Self-Help Tools</span>
-                        </a>
-
-                        <a href="/chatbot" class="menu-item">
-                            <span class="icon">🤖</span>
-                            <span>Chatbot AI</span>
-                        </a>
-
-                        <a href="/konseling" class="menu-item">
-                            <span class="icon">💬</span>
-                            <span>Konseling</span>
-                        </a>
-
-                    </nav>
-
-                    <a href="/web/session/logout" class="menu-item logout-btn">
-                        <span class="icon">⏻</span>
-                        <span>Logout</span>
-                    </a>
-
-                </aside>
+                <t t-call="titikkoma.shared_sidebar">
+                    <t t-set="active_menu" t-value="'beranda'"/>
+                </t>
 
                 <!-- MAIN CONTENT -->
                 <main class="main-content" id="mainContent">
@@ -68,7 +22,7 @@
                     <div class="topbar">
 
                         <div class="welcome">
-                            <h1>Halo, Selamat Datang! 👋</h1>
+                            <h1>Halo, Selamat Datang!</h1>
                             <p>Kami senang melihatmu. Mari kita jaga kesehatan mental bersama.</p>
                         </div>
 
@@ -145,7 +99,7 @@
                                 <!-- AI CHAT (Taller) -->
                                 <div class="feature-card cyan">
                                     <div>
-                                        <h4>Chatbot AI 🤖</h4>
+                                        <h4>Chatbot AI</h4>
                                         <p>Berbicara dengan AI yang suportif, tersedia 24/7 untuk mendengarkan.</p>
                                     </div>
                                     <a href="/chatbot" class="card-btn">Mulai Chat</a>
@@ -197,11 +151,11 @@
 
                             <div class="stats">
                                 <div class="stat-item">
-                                    <h4>5</h4>
+                                    <h4><t t-esc="journal_count"/></h4>
                                     <span>Jurnal</span>
                                 </div>
                                 <div class="stat-item">
-                                    <h4>12</h4>
+                                    <h4><t t-esc="mood_count"/></h4>
                                     <span>Mood Logs</span>
                                 </div>
                                 <div class="stat-item wide">
@@ -219,6 +173,36 @@
                 </main>
 
             </div>
+
+            <t t-if="show_assessment_popup">
+                <div id="assessment-gate-overlay">
+                    <div id="assessment-gate-modal">
+                        <div class="assessment-gate-icon">📋</div>
+                        <h2>Selesaikan Assessment Dulu!</h2>
+                        <p>
+                            Untuk menggunakan semua fitur Titik Koma, kamu perlu
+                            mengisi self assessment terlebih dahulu.
+                            Hanya butuh beberapa menit!
+                        </p>
+                        <a t-att-href="assessment_retry_url" class="assessment-gate-btn">
+                            Mulai Assessment Sekarang →
+                        </a>
+                    </div>
+                </div>
+                <script>
+                    document.body.classList.add('assessment-gate-open');
+
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'Escape') {
+                            e.preventDefault();
+                        }
+                    });
+
+                    document.getElementById('assessment-gate-overlay').addEventListener('click', function(e) {
+                        e.stopPropagation();
+                    });
+                </script>
+            </t>
 
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
