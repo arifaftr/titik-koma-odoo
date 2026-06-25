@@ -998,7 +998,7 @@ body:has(#mhc-chatbot-root) #wrapwrap {
 
 #mhc-chatbot-root .mhc-avatar-bot {
     background-color: #ede9fe;
-    background-image: url('/mental_health_chatbot/static/src/img/tiko_profile.png');
+    background-image: url('/mental_health/static/src/img/tiko_profile.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1014,7 +1014,7 @@ body:has(#mhc-chatbot-root) #wrapwrap {
 /* Header avatar image (chat header only) */
 #mhc-chatbot-root .chat-header-avatar.custom-img,
 #mhc-chatbot-root .chat-header-avatar.use-profile {
-    background-image: url('/mental_health_chatbot/static/src/img/tiko_profile.png');
+    background-image: url('/mental_health/static/src/img/tiko_profile.png');
     background-size: cover;
     background-position: center;
 }

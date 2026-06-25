@@ -14,8 +14,8 @@
     ],
     'assets': {
         'chatbot.assets_chatbot': [
-            'mental_health_chatbot/static/src/css/chatbot.css',
-            'mental_health_chatbot/static/src/js/chatbot.js',
+            'mental_health/static/src/css/chatbot.css',
+            'mental_health/static/src/js/chatbot.js',
         ],
     },
     'installable': True,
