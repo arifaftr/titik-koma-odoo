@@ -42,7 +42,7 @@
                         <a href="/mood-tracker" class="mood-box" style="text-decoration:none;">
                             <div class="mood-box-emoji">
                                 <t t-if="last_mood">
-                                    <t t-if="'Luar Biasa' in last_mood">😄</t>
+                                    <t t-if="'Luar Binasa' in last_mood">😄</t>
                                     <t t-elif="'Baik' in last_mood">😊</t>
                                     <t t-elif="'Buruk' in last_mood">😔</t>
                                     <t t-elif="'Sangat Buruk' in last_mood">😞</t>
