@@ -17,6 +17,21 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: 22
           script: |
-            cd /opt/odoo/titik-koma-odoo
-            git pull origin main
-            docker compose restart web
+             echo "Pulling latest changes from GitHub..."
+              cd /opt/odoo/titik-koma-odoo
+              git pull origin main
+  
+              echo "Stopping Odoo container to release port..."
+              cd deployment
+              docker compose stop web
+  
+              echo "Upgrading modules to apply XML/UI changes..."
+              docker compose run --rm web odoo \
+                -u titikkoma,student_journaling,assessment,konseling,mental_health,student_mood_tracking,custom_login,edit_profil2 \
+                -d titik_koma_db \
+                --stop-after-init
+  
+              echo "Starting Odoo container with new code..."
+              docker compose start web
+  
+              echo "Deployment successful!"
