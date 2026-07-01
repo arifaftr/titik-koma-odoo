@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <template id="custom_homepage" name="Mental Health Modern Dashboard">
+    <template id="custom_homepage" name="Titik Koma">
 
         <t t-call="website.layout">
 
@@ -22,7 +22,7 @@
                     <div class="topbar">
 
                         <div class="welcome">
-                            <h1>Halo!</h1>
+                            <h1>Halo, Selamat Datang!</h1>
                             <p>Kami senang melihatmu. Mari kita jaga kesehatan mental bersama.</p>
                         </div>
 
