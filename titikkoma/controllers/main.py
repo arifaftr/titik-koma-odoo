@@ -71,7 +71,7 @@ class TitikKomaController(http.Controller):
         ], limit=1)
 
         mood_display = {
-            'luar_biasa': 'Luar Biasa',
+            'luar_biasa': 'Luar Binasa',
             'baik': 'Baik',
             'buruk': 'Buruk',
             'sangat_buruk': 'Sangat Buruk',
